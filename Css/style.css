@@ -2,27 +2,26 @@ html body{
     background-color: #323436;
     width: 100%;
     height: auto;
+    margin: 0;
+    overflow: hidden;
 }
 
 .gameScreen{
     position: absolute;
-    width: 50%;
-    height: 700px;
-    top: 21.5%;
-    left: 25.4%;
+    width: 100%;
+    height: 100%;
+    top: 2%;
 }
 
 #mittCanvas{
-    height: 700px;
-    width: 50%;
-    margin-left: 25%;
-    margin-top: 10%;
+    height: 100%;
+    width: 100%;
     background-color: white;
 }
 
 .content{
     display: flex;
-    height: 700px;
+    height: 100%;
     width: 100%;
     flex-direction: column;
 }
