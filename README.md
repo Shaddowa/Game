@@ -27,3 +27,13 @@ hannah er en menneske aktig google
 // 14.02.2018 Hanna
 Jeg begynte å jobbe litt med kollisjon og hva som vill skje om man kolliderte med en fiende eller collectables. Nå kan Mario hoppe, falle, "dø" og plukke opp mynter. Ikke noen problemer å fikse, og det var egentlig ganske greit og få til kollisjonen. Det eneste jeg er usikker på er om dette er effektiv kode eller dårlig skrevet. Har foreløping en Entety class og bakke class og collectable objekt. Er usikker på om jeg bare trenger 1 class eller om 3 er nødvendig
 //
+//16.02
+Kl.13.12 
+Vi prøver å endre hoppe dynamikken. Når du trykker skal stige en viss px men når du realiser knappen så minker pikselfarten. 
+Bug- ved implementering av denne mekanikken så vil ikke figuren beveg seg etter piltastene. 
+Fix- hannah sorterte 
+
+13.23 
+14.00 
+Bug- dobbel hopp og det er mulig å hoppe mens vi er i luften, not correct :(
+//
