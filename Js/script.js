@@ -76,53 +76,15 @@ function startSpill() {
 
 */
 
+
+
 enterLvl1();
 
 function enterLvl1() {
-    //Events
-    window.addEventListener("keydown", keyDown);
-    window.addEventListener("keyup", keyUp)
 
-    var left = false;
-    var right = false;
-    var space = false;
-
-
-    function keyDown(e) {
-
-
-        if (e.keyCode === 37) {
-            left = true;
-        }
-        if (e.keyCode === 39) {
-            right = true;
-        }
-
-        if (e.keyCode === 32) {
-            space = true;
-        }
-        console.log(e.keyCode, left, right);
-
-    }
-    function keyUp(e) {
-
-        if (e.keyCode === 37) {
-            left = false;
-        }
-        if (e.keyCode === 39) {
-            right = false;
-        }
-        if (e.keyCode === 32) {
-            space = false;
-        }
-        console.log(e.keyCode, left, right);
-
-    }
-
-
+    
+   
     /*alll koden her */
-
-
 
     var player = new entity("img/Small1.png", canvasEl.width/2, 30, 15, 18, 2, 20, 0.05, 100, 4, "Hanna")
     var enemy = new entity("img/Small1.png",300,10,15,18,2,20,0.1,10,3)
@@ -139,17 +101,15 @@ function enterLvl1() {
 
 
 
-    console.log(canvasEl.height);
-
     //mainLoop
 
     mainLoop();
     function mainLoop() {
         
-        console.log(player.xPosition);
+        
         //Pre variable adjustment
 
-
+        var gravity = 0.8;
         //Making the game a side scroller
 
         for(var i = 0; i < maxBlock; i++)
@@ -174,8 +134,16 @@ function enterLvl1() {
             player.xSpd = 3;
         }
 
-        if (space && player.ySpd === 0) {
+        if (jump) {
             player.ySpd = -1.5;
+        }
+        
+        if(jump &&  player.yPosition > 20){
+            jump = false;
+        }
+
+        if(!jump && !onGround && player.ySpd < -5){
+            player.ySpd += gravity; 
         }
 
 
@@ -204,23 +172,23 @@ function enterLvl1() {
 
 
         for (var i = 0; i < maxBlock; i++) {
-            if (player.collitionGround(block[i]) && player.yPosition + player.height < block[i].yPosition + player.ySpd) {
+            if (player.collitionObject(block[i]) && player.yPosition + player.height < block[i].yPosition + player.ySpd) {
                 player.ySpd = 0;
                 player.yPosition = block[i].yPosition - player.height;
             }
         }
         for (var i = 0; i < maxBlock; i++) {
-            if (enemy.collitionEnemy(block[i]) && enemy.yPosition + enemy.height < block[i].yPosition + enemy.ySpd) {
+            if (enemy.collitionObject(block[i]) && enemy.yPosition + enemy.height < block[i].yPosition + enemy.ySpd) {
                 enemy.ySpd = 0;
                 enemy.yPosition = block[i].yPosition - enemy.height;
             }
         }
 
-        if(player.collitionEnemy(enemy)){
+        if(player.collitionObject(enemy)){
             alert("du tapte");
         }
 
-        if(player.collitionCollectable(coin)){
+        if(player.collitionObject(coin)){
             alert("du fikk en mynt");
         }
 
