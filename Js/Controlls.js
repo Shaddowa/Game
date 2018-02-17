@@ -11,12 +11,16 @@ var returnButton = document.createElement("button");
 window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp)
 
+
 var left = false;
 var right = false;
 var jump = false;
-var onGround = false;
+var onGround ;
+var hasRealised;
 
 function keyDown(e) {
+
+   
 
 
     if (e.keyCode === 37) {
@@ -26,12 +30,15 @@ function keyDown(e) {
         right = true;
     }
 
-    if (e.keyCode === 38) {
-        jump = true;
+    if (e.keyCode === 38 && onGround === true) {
         
+        jump = true;
         onGround = false;
+
     }
-    console.log(e.keyCode, left, right);
+
+
+    
 
 }
 function keyUp(e) {
@@ -42,13 +49,8 @@ function keyUp(e) {
     if (e.keyCode === 39) {
         right = false;
     }
-    if (e.keyCode === 38) {
-        jump = false;
-        if(this.ySpd < 0){
-            onGround = true;
-        }
+    if(e.keyCode === 38){
+        hasRealised = true;
     }
-    console.log(e.keyCode, left, right);
-
 }
 
