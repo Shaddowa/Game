@@ -84,15 +84,15 @@ function enterLvl1() {
 
 
     var BlockSet = [
-        { antallBlokker: 3, xPos: 10, yPos: 90 },
-        { antallBlokker: 2, xPos: 90, yPos: 20 },
-        { antallBlokker: 2, xPos: 200, yPos: 70 }
+        { antallBlokker: 20, xPos: 50, yPos: 90 },
+        { antallBlokker: 2, xPos: 400, yPos: 35 },
+        { antallBlokker: 2, xPos: -50, yPos: 115 }
     ]
 
     var block = new Array();
 
 
-    var player = new entity("img/Small1.png", 10, 30, 15, 18, 2, 20, 0.05, 100, 4, "Hanna")
+    var player = new entity("img/Small1.png", canvasEl.width/2, 30, 15, 18, 2, 20, 0.05, 100, 4, "Hanna")
     var enemy = new entity("img/Small1.png", 60, 10, 15, 18, 2, 20, 0.1, 10, 3)
     var coin = new collectable("img/coin.png", 0, 60, 10, 10)
 
@@ -106,25 +106,12 @@ function enterLvl1() {
         enemy.xPosition -= player.xSpd;
         coin.xPosition -= player.xSpd;
         player.yPosition += player.ySpd;
-
+    
 
         //Pre variable adjustment
 
         var gravity = 0.09;
-        //Making the game a side scroller
-
-
-        //starting from 0 and untill every block is placed, apply the following command
-
-        /*
-        
-        */
-
-
-
-
-
-
+    
         //Logic xPosition and xSpd
 
         if (left) {
@@ -170,22 +157,7 @@ function enterLvl1() {
 
 
         //Kollision and gravity
-        /*
-        for (var i = 0; i < BlockSet.length; i++) {
-            for (var j = 0; j < block[i].length; i++) {
-                
-            }
-        }
-        */
-
-
-
-
-
-
-
-
-
+      
 
         //if (player.collitionObject(enemy)) {
         //    alert("du tapte");
@@ -211,23 +183,13 @@ function enterLvl1() {
         ctx.drawImage(enemy.sprite, enemy.xPosition, enemy.yPosition);
         ctx.drawImage(coin.sprite, coin.xPosition, coin.yPosition);
 
+      
         for (var i = 0; i < BlockSet.length; i++) {
-
-            //after we have found out the lenght of the object we should start to tap into each and every 
-            //one of their block counts and make block according to this
-
-            //Now we loop through every Block[i] and check if J is lower than the key antallBokser. if it is, J
-            //Should increment
-
             block[i] = new Array();
-
-
+            BlockSet[i].xPos += -player.xSpd;
 
             for (var j = 0; j < BlockSet[i].antallBlokker; j++) {
-
                 block[i][j] = new blocks("img/iu.jpg", BlockSet[i].xPos + (j * 40), BlockSet[i].yPos, 40, 40, 0);
-                block[i][j].xPosition -= player.xSpd;
-
                 if (player.collitionObject(block[i][j]) && player.yPosition + player.height < block[i][j].yPosition + player.ySpd) {
                     player.ySpd = 0;
                     onGround = true;
@@ -236,21 +198,12 @@ function enterLvl1() {
 
                 }
 
-
-
                 if (enemy.collitionObject(block[i][j]) && enemy.yPosition + enemy.height < block[i][j].yPosition + enemy.ySpd) {
                     enemy.ySpd = 0;
                     enemy.yPosition = block[i][j].yPosition - enemy.height;
                 }
-
                 ctx.drawImage(block[i][j].sprite, block[i][j].xPosition, block[i][j].yPosition)
-
-
             }
-
-
-
-
         }
 
 

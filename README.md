@@ -55,6 +55,10 @@ Jeg fikk til å implementere blokksystemet jeg hadde tenkt. Var litt vanskelig o
 
 Det eneste som trengs å gjøre nå er å få blokkene til å sideScrolle. Til nå funker ikke dette enda og blokkene er plassert hvor spilleren befinner seg, selvom alt annet(fiender og collectabels) er relativ til spilleren. Jeg sender den over til Anyajan
 
+tror problemet ligger på linje 229 script.js :   block[i][j].xPosition -= player.xSpd;
+
+//Update 30 min senere: Ja det stemte, jeg brukte feil variabel, skulle bruke BlockSet[i].xPosition i stedenfor block[i][j]; nå funker det perfekt.
+
 Making progressss :D
 
 13.23 
