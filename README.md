@@ -53,13 +53,20 @@ Jeg har en anelse om hvordan det bør gjøres, men jeg får det ikke helt til. L
 Jeg fikk til å implementere blokksystemet jeg hadde tenkt. Var litt vanskelig og de forskjellige variablene og loopene var forvirrende. Jeg måtte passe på at rekkefølgen passet, slik at alt var definert før det ble tegnet. Samtidig foreklet jeg koden for å gjøre den lettere å forstå. Løsningen var å definere ett array før vi gikk gjennom en loop. Etter det lager vi nye arrayer på de forskjellige posisjonene og til slutter tegner dem ved å bruke i og j som telle variabler. Nå kan vi lett plasere blokker og kollisjonssystemet funker perfekt med både spiller og fiender.
 
 
-Det eneste som trengs å gjøre nå er å få blokkene til å sideScrolle. Til nå funker ikke dette enda og blokkene er plassert hvor spilleren befinner seg, selvom alt annet(fiender og collectabels) er relativ til spilleren. Jeg sender den over til Anyajan
+Det eneste som trengs å gjøre nå er å få blokkene til å sideScrolle. Til nå funker ikke dette enda og blokkene er plassert hvor spilleren befinner seg, selvom alt annet(fiender og collectabels) er relativ til spilleren.
 
 tror problemet ligger på linje 229 script.js :   block[i][j].xPosition -= player.xSpd;
 
 //Update 30 min senere: Ja det stemte, jeg brukte feil variabel, skulle bruke BlockSet[i].xPosition i stedenfor block[i][j]; nå funker det perfekt.
 
 Making progressss :D
+
+
+//18.02.2018 Hanna
+Prøve å få fiendene til å patruljere verden ved å gi en range. Hvis dere start posisjon pluss dens range er nådd så skal den få negativ x fart og gå andre veien helt til dens xPosisjon er lik dens starPosisjon minus dets range. Da skal x farten bli positiv. Det eneste problemet er at den er ikke relativt til verdenen og om spilleren beveger seg så blir deres patruljeområde flyttet på. Kan muligens bli brukt som en zombie class, at den har litt IQ og vil følge etter spilleren, men vi er ikke helt der enda.
+
+Prøvde også å implementere skudd i spillet. Så langt så har jeg bare lagt til et interval på 2 sekunder. Dette vil i fremtiden bli cooldown på våpnenet. Det som er litt rart er at interval tiden funker helt til man har skutt 3 ganger og da er det to sekunders mellomrom mellom hver gang meldingen dukker opp. Når det 4, 5 og 6 skuddet blir utløst er tiden kortere mellom hver gang det blir avfyrt, dette gjelder også 8,9 og 10.
+
 
 13.23 
 14.00 

@@ -92,33 +92,75 @@ function enterLvl1() {
     var block = new Array();
 
 
-    var player = new entity("img/Small1.png", canvasEl.width/2, 30, 15, 18, 2, 20, 0.05, 100, 4, "Hanna")
-    var enemy = new entity("img/Small1.png", 60, 10, 15, 18, 2, 20, 0.1, 10, 3)
+    var player = new entity("img/Small1.png", canvasEl.width / 2, 30, 15, 18, 2, 20, 0.05, 100, 4, "Hanna")
+    var enemy = new entity("img/Small1.png", 200, 10, 15, 18, 5, 2, 20, 0.1, 10, 3)
     var coin = new collectable("img/coin.png", 0, 60, 10, 10)
 
     //mainLoop
 
+    //How far the enemy can travel
+    enemy.range = 10;
+
+    //Saving the enemies start position first time it is loaded
+    enemy.startXposition = enemy.xPosition;
+    //enemy.onScreenXPosition = startXposition;
+
+    //defining the enemies speed first time it is loaded
+    enemy.xSpd = 0.5;
+
+
+    var bulletInventory = 10;
+    var bulletFired = false;
+    var bulletList = [];
+
+
+
+
     mainLoop();
     function mainLoop() {
-
-
+     
+        // saying that the enemies sposition is relative to the player and the world
+        //enemy.onScreenXPosition += startXpositi; 
+       
+        //saying that the enemy should have gravity
         enemy.yPosition += enemy.ySpd;
-        enemy.xPosition -= player.xSpd;
+
+        //saying that the enemies xPosition should be relative to the enemies speed and shoudl
+        //Be located in an area
+        enemy.xPosition += enemy.xSpd;
+        //saying that the enemies location should be relative to its speed
+       
         coin.xPosition -= player.xSpd;
         player.yPosition += player.ySpd;
-    
+        //console.log(enemy.startXposition += enemy.range);
+
+        
+
+        if(enemy.xPosition >  enemy.startXposition + enemy.range) {
+            enemy.xSpd = -0.5;
+            console.log("hei");
+        } else if(enemy.xPosition < enemy.startXposition - enemy.range) {
+            enemy.xSpd = 0.5;
+            console.log("Hade");
+        }
+        
+
 
         //Pre variable adjustment
 
         var gravity = 0.09;
-    
+
         //Logic xPosition and xSpd
 
         if (left) {
             player.xSpd = -3;
+            
+            
         }
         if (right) {
             player.xSpd = 3;
+       
+            
         }
 
         //If jump is true
@@ -155,9 +197,49 @@ function enterLvl1() {
         }
 
 
+        // Wapon logic
+
+
+        if (isShooting && bulletInventory != 0 && bulletFired == false) {
+            
+            if (bulletFired == false) {
+                bulletInventory--;
+                //var thisBullet = new bullets(bulletStart)
+                //bulletList.push(thisBullet)
+                bulletFired = true;
+                
+                console.log("hei");
+                
+            }
+
+            if (bulletFired == true) {
+                setInterval(gunCooldown, 2000);
+            }
+
+            function gunCooldown() {
+                bulletFired = false;
+
+            }
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         //Kollision and gravity
-      
+
 
         //if (player.collitionObject(enemy)) {
         //    alert("du tapte");
@@ -179,11 +261,12 @@ function enterLvl1() {
         //Rendering
 
         ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
-        ctx.drawImage(player.sprite, player.xPosition, player.yPosition);
+
         ctx.drawImage(enemy.sprite, enemy.xPosition, enemy.yPosition);
         ctx.drawImage(coin.sprite, coin.xPosition, coin.yPosition);
+        ctx.drawImage(player.sprite, player.xPosition, player.yPosition);
 
-      
+
         for (var i = 0; i < BlockSet.length; i++) {
             block[i] = new Array();
             BlockSet[i].xPos += -player.xSpd;

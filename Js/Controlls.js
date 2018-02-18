@@ -11,7 +11,7 @@ var returnButton = document.createElement("button");
 window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp)
 
-
+var isShooting = false;
 var left = false;
 var right = false;
 var jump = false;
@@ -37,6 +37,10 @@ function keyDown(e) {
 
     }
 
+    if(e.keyCode === 32){
+        isShooting = true;
+    }
+
 
     
 
@@ -51,6 +55,10 @@ function keyUp(e) {
     }
     if(e.keyCode === 38){
         hasRealised = true;
+    }
+    
+    if(e.keyCode === 32){
+        isShooting = false;
     }
 }
 

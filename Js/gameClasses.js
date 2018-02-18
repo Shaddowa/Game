@@ -61,6 +61,7 @@ class entity {
     }
 }
 
+
 class collectable {
     constructor(img, xPosition, yPosition, width, height) {
         this.sprite = new Image();
@@ -85,6 +86,15 @@ class blocks {
     }
 }
 
+class bullets {
+    constructor(startxPosition, xPosition, yPosition, xSpd, damage) {
+        this.startxPosition = startxPosition;
+        this.xPosition = xPosition;
+        this.yPosition = yPosition;
+        this.xSpd = xSpd;
+        this.damage = damage;
+    }
+}
 
 
 
