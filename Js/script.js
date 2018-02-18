@@ -99,12 +99,14 @@ function enterLvl1() {
     //mainLoop
 
     //How far the enemy can travel
-    enemy.range = 10;
+   
 
     //Saving the enemies start position first time it is loaded
     enemy.startXposition = enemy.xPosition;
+    
+    
     //enemy.onScreenXPosition = startXposition;
-
+   
     //defining the enemies speed first time it is loaded
     enemy.xSpd = 0.5;
 
@@ -118,31 +120,35 @@ function enterLvl1() {
 
     mainLoop();
     function mainLoop() {
+        
+        enemy.startXposition += enemy.xSpd;
+        console.log(enemy.startXposition);
+        
+        if(enemy.startXposition == 250) {
+            enemy.xSpd = -0.5;
+            console.log("hei");
+        } else if(enemy.startXposition === 150) {
+            enemy.xSpd = 0.5;
+            console.log("Hade");
+        }
      
         // saying that the enemies sposition is relative to the player and the world
-        //enemy.onScreenXPosition += startXpositi; 
-       
+       // enemy.onScreenXPosition += -player.xSpd + enemy.xPosition; 
+       enemy.xPosition += -player.xSpd + enemy.xSpd;
         //saying that the enemy should have gravity
         enemy.yPosition += enemy.ySpd;
 
         //saying that the enemies xPosition should be relative to the enemies speed and shoudl
         //Be located in an area
-        enemy.xPosition += enemy.xSpd;
+        
+        
         //saying that the enemies location should be relative to its speed
        
         coin.xPosition -= player.xSpd;
         player.yPosition += player.ySpd;
-        //console.log(enemy.startXposition += enemy.range);
-
         
 
-        if(enemy.xPosition >  enemy.startXposition + enemy.range) {
-            enemy.xSpd = -0.5;
-            console.log("hei");
-        } else if(enemy.xPosition < enemy.startXposition - enemy.range) {
-            enemy.xSpd = 0.5;
-            console.log("Hade");
-        }
+
         
 
 

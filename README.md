@@ -65,6 +65,8 @@ Making progressss :D
 //18.02.2018 Hanna
 Prøve å få fiendene til å patruljere verden ved å gi en range. Hvis dere start posisjon pluss dens range er nådd så skal den få negativ x fart og gå andre veien helt til dens xPosisjon er lik dens starPosisjon minus dets range. Da skal x farten bli positiv. Det eneste problemet er at den er ikke relativt til verdenen og om spilleren beveger seg så blir deres patruljeområde flyttet på. Kan muligens bli brukt som en zombie class, at den har litt IQ og vil følge etter spilleren, men vi er ikke helt der enda.
 
+UPDATE// Jeg ønsker at dens patruljescript skal være dynamisk og lett og endre for mange uten at vi må hardkode xPosisjonene for hånd, til nå bruker jeg harde data for å sjekke om det jeg prøver på er mulig og det er det. Nå må vi bare finne en løsning hvor vi kan putte inn variabel navn eller lignende så det ikke blir så tungvint.
+
 Prøvde også å implementere skudd i spillet. Så langt så har jeg bare lagt til et interval på 2 sekunder. Dette vil i fremtiden bli cooldown på våpnenet. Det som er litt rart er at interval tiden funker helt til man har skutt 3 ganger og da er det to sekunders mellomrom mellom hver gang meldingen dukker opp. Når det 4, 5 og 6 skuddet blir utløst er tiden kortere mellom hver gang det blir avfyrt, dette gjelder også 8,9 og 10.
 
 
