@@ -77,7 +77,19 @@ UPDATE : Jeg ønsker at dens patruljescript skal være dynamisk og lett og endre
 // 19.02.2018 - Hanna kan spawne uendelig mange objekter uten effort
 Nå har jeg implementert lettvindte måter å spawne samt blokker, fiender, mynter og gullerøtter. Det som må bli lagt til er enden av hvert lvl. Når det er gjort, har vi alle de grunnleggende tingene som bør være med i den enkleste versjonen av spillet og vi kan bli mer fancy når alt er som det skal være. Patrulje matten må stå på vent, men den er bare kommentert ut.
 
-Til å har vi kunn ett problem og det er å fikse kollisjonen til alle de forskjellige fiendene. Siden vi har forskjellige for løkker til å tegne de forskjellige objektene på skjermen, må jeg dobble for løkke antallet for å regne med alle fiender og deres kollisjon til alle blokkene. 
+Til nå har vi kunn ett problem og det er å fikse kollisjonen til alle de forskjellige fiendene. Siden vi har forskjellige for løkker til å tegne de forskjellige objektene på skjermen, må jeg dobble for løkke antallet for å regne med alle fiender og deres kollisjon til alle blokkene. 
+
+
+UPDATE - Hanna  har lagt til kollisjon og graviditet samt patruljering for alle fiendene
+
+Da jeg skulle starte med kollisjonen mellom fiendene og bakken hentet jeg verdiene fra blokk arrayen og fiende arrayen og ga dem kollisjon ved å ha 4 for løkker. Først krashet programmet mitt og frameraten droppa veldig, men så fant jeg ut at det sikkert var fordi jeg lagde alle objektene osv i selve spillLoopen så hver gang vi loopen gikk en runde, lagde den automatisk alt helt nytt med litt forskjellig verdier enn den forige loopen. Derfor flyttet jeg de funksjonene som lagde tingene utenfor loopen og bare beregnet verdiene og tegnet dem i loopen istedenfor å lage ny 60 ganger i sekundet. Dette funket.
+
+La til tyngdekraft og range i EnemySet objektet og definerte nye variabler som skulle bli brukt til fiendens scope. så med andre ord så regner jeg to forskjellige verdier, fiendens start verdi og dens xPosisjon. De har i utgangspunktet ikke noe med hverandre å gjøre, men de sammarbeider sammen for å få patruljeringen til å funke. start verdien vil øke med EnemySet sin speed. Om startVerdien er lik enemiens scopeRight så skal fiendens xposisjon være relativt til spilleren og seg selv ved å si -EnemySet[0].xspd. Da vil den gjøre om å ha dens orginale fart som er positivt. Alt dette blir sjekket med mange if tester.
+
+UPDATE Tweeking: var en bug fordi jeg hadde en kontroll som gikk av eller på om en av fiendene nådde sitt scope. Dette gjorde at false gikk til true eller omvendt og påvirket alle fiendene til å gå samme vei samtidig i stedenfor når de nådde sitt scope.
+
+Jeg løste dette ved å lage en ny array som holdt boolean for alle gruppene av fiender og jeg satt de først til falsk. Om gruppen nådde sitt scope skulle bare gruppen sin boolean bli endre fra falsk til true slik at de ikke påvirket hverandre. også sjekket jeg om gruppen sin boolean var true eller falsk, om den endrer seg så skal bare den gruppen av fiender som har true som bolean endre retning
+
 
 Se Linje 333
 //

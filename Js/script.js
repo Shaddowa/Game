@@ -81,6 +81,7 @@ function startSpill() {
 enterLvl1();
 
 function enterLvl1() {
+    var player = new entity("img/Small1.png", canvasEl.width / 2, 30, 15, 18, 2, 20, 0.05, 100, 4, "Hanna")
 
     //Placing the blocks
 
@@ -115,16 +116,50 @@ function enterLvl1() {
     //Placing the enemies
 
     var EnemySet = [
-        { antallEnemies: 4, xPos: 50, yPos: 30, yspd: 2, xspd: 0.5, gravity: 5, weight: 0.1, currentHp: 5, damage: 0 },
-        { antallEnemies: 5, xPos: 400, yPos: 30, yspd: 0.5, xspd: 0.5, gravity: 5, weight: 0.1, currentHp: 5, damage: 0 },
-        { antallEnemies: 2, xPos: -50, yPos: 30, yspd: 0.5, xspd: 0.5, gravity: 5, weight: 0.1, currentHp: 5, damage: 0 },
+        { antallEnemies: 4, xPos: 50, yPos: 30, yspd: 0.5, xspd: 0.5, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 100 },
+        { antallEnemies: 5, xPos: 200, yPos: 20, yspd: 0.5, xspd: 0.5, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 200 },
+        { antallEnemies: 2, xPos: 400, yPos: 10, yspd: 0.5, xspd: 0.5, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 50 },
     ]
 
     var enemies = new Array();
+    var enemyStartXValue = new Array();
+    var startSpeed = new Array();
 
 
 
-    var player = new entity("img/Small1.png", canvasEl.width / 2, 30, 15, 18, 2, 20, 0.05, 100, 4, "Hanna")
+    //Rendering the enemies
+    for (var i = 0; i < EnemySet.length; i++) {
+        enemies[i] = new Array();
+        enemyStartXValue[i] = new Array();
+        startSpeed[i] = new Array();
+       
+
+        for (var j = 0; j < EnemySet[i].antallEnemies; j++) {
+            startSpeed[i][j] = false;
+            enemies[i][j] = new entity("img/Small1.png", EnemySet[i].xPos + (j * 15), EnemySet[i].yPos, 15, 18, EnemySet[i].yspd, EnemySet[i].gravity, EnemySet[i].weight, EnemySet[i].currentHp, EnemySet[i].damage);
+
+            //Saving the start position of each enemuy in an array
+            enemyStartXValue[i][j] = enemies[i][j].xPosition
+
+            //Giving each of the enemies the range which the group is limited to
+            enemies[i][j].posibleRange = EnemySet[i].range
+
+            //A value for each enemy of the max limit the can go to the right
+            enemies[i][j].scopeRight = enemyStartXValue[i][j] + EnemySet[i].range;
+
+            //And a value of the max limit to the left
+            enemies[i][j].scopeLeft = enemyStartXValue[i][j] - EnemySet[i].range;
+
+            //Lastly we give the enemies their start value 
+            enemies[i][j].startXposition = enemyStartXValue[i][j];
+        }
+    }
+  
+
+
+    //Saying that the enemies y position should be added by his y speed
+
+
 
 
 
@@ -139,46 +174,20 @@ function enterLvl1() {
     mainLoop();
     function mainLoop() {
 
-        //enemy.startXposition += enemy.xSpd;
-
-        /*
-        if (enemy.startXposition == 250) {
-            enemy.xSpd = -0.5;
-            console.log("hei");
-        } else if (enemy.startXposition === 150) {
-            enemy.xSpd = 0.5;
-            console.log("Hade");
-        }
-        */
-
-        // saying that the enemies sposition is relative to the player and the world
-        // enemy.onScreenXPosition += -player.xSpd + enemy.xPosition; 
-        //enemy.xPosition += -player.xSpd + enemy.xSpd;
-        //saying that the enemy should have gravity
-        //enemy.yPosition += enemy.ySpd;
-
-        //saying that the enemies xPosition should be relative to the enemies speed and shoudl
-        //Be located in an area
+        var gravity = 0.09;
 
 
         player.yPosition += player.ySpd;
 
-        //Pre variable adjustment
-
-        var gravity = 0.09;
-
-        //Logic xPosition and xSpd
-
         if (left) {
             player.xSpd = -3;
-
 
         }
         if (right) {
             player.xSpd = 3;
 
-
         }
+
 
         //If jump is true
 
@@ -203,12 +212,13 @@ function enterLvl1() {
         }
 
 
-
         // Health Logic
 
         if (player.yPosition > canvasEl.height) {
             player.CurrentHp = 0;
         }
+
+
 
 
         // Wapon logic
@@ -238,6 +248,13 @@ function enterLvl1() {
         }
 
 
+        //Pre variable adjustment
+
+
+
+        //Logic xPosition and xSpd
+
+
 
 
         //Kollision and gravity
@@ -247,17 +264,7 @@ function enterLvl1() {
         //    alert("du tapte");
 
 
-        //if (player.collitionObject(coin)) {
-        //    alert("du fikk en mynt");
-        // }
-
-
-
-
-
         //Post variable adjustment
-
-
 
 
         //Clearing the screen
@@ -276,18 +283,13 @@ function enterLvl1() {
                     onGround = true;
                     hasRealised = false;
                     player.yPosition = block[i][j].yPosition - player.height;
-
                 }
-                /*
 
-                if (enemy.collitionObject(block[i][j]) && enemy.yPosition + enemy.height < block[i][j].yPosition + enemy.ySpd) {
-                    enemy.ySpd = 0;
-                    enemy.yPosition = block[i][j].yPosition - enemy.height;
-                }
-                */
                 ctx.drawImage(block[i][j].sprite, block[i][j].xPosition, block[i][j].yPosition)
             }
         }
+
+
         //Rendering the Coins
 
         for (var i = 0; i < CoinSet.length; i++) {
@@ -295,6 +297,10 @@ function enterLvl1() {
             CoinSet[i].xPos += -player.xSpd;
             for (var j = 0; j < CoinSet[i].antallCoins; j++) {
                 playerCoins[i][j] = new collectable("img/coin.png", CoinSet[i].xPos + (j * 20), CoinSet[i].yPos, 2, 2)
+
+                if (player.collitionObject(playerCoins[i][j])) {
+                    console.log("du fikk mynten " + playerCoins[i][j]);
+                }
                 ctx.drawImage(playerCoins[i][j].sprite, playerCoins[i][j].xPosition, playerCoins[i][j].yPosition);
             }
 
@@ -306,46 +312,57 @@ function enterLvl1() {
             carrots[i] = new Array();
             CarrotSet[i].xPos += -player.xSpd;
 
-
-
             carrots[i] = new collectable("img/treasure.png", CarrotSet[i].xPos, CarrotSet[i].yPos, 2, 2)
+            if (player.collitionObject(carrots[i])) {
+                console.log("Du fikk tak i en skatt");
+            }
             ctx.drawImage(carrots[i].sprite, carrots[i].xPosition, carrots[i].yPosition);
 
 
 
         }
+       
 
-
-        //Rendering the enemies
-        for (var i = 0; i < EnemySet.length; i++) {
-            enemies[i] = new Array();
-            EnemySet[i].xPos += -player.xSpd;
-            EnemySet[i].yPos += EnemySet[i].xspd;
-            //enemies[i].startXposition = 0;
-
-            enemies[i].xSpd = 0.5;
-
-            for (var j = 0; j < EnemySet[i].antallEnemies; j++) {
-              
-                enemies[i][j] = new entity("img/Small1.png", EnemySet[i].xPos + (j * 15), EnemySet[i].yPos, 15, 18, EnemySet[i].yspd, EnemySet[i].gravity, EnemySet[i].weight, EnemySet[i].currentHp, EnemySet[i].damage);
+        //Rendering the enemies && Koisjon mot hver blokk
+        for (var i = 0; i < enemies.length; i++) {
+           
+            for (j = 0; j < enemies[i].length; j++) {
                 
-                //Koisjon mot hver blokk
-                /*
-                for(var k = 0; k < BlockSet.length; k++){
-                    for(var l = 0; l < BlockSet[i].antallBlokker; l++){
-                        if (enemies[i][j].collitionObject(block[k][l]) && enemies[i][j].yPosition + enemies[i][j].height < block[k][l].yPosition + enemies[i][j].ySpd) {
+                if(startSpeed[i][j] == false){
+                    enemies[i][j].xPosition += -player.xSpd + EnemySet[i].xspd;
+                    enemies[i][j].yPosition += EnemySet[i].yspd;
+                    enemies[i][j].startXposition += -EnemySet[i].xspd;
+                }
+
+                if (startSpeed[i][j] == true) {
+                    enemies[i][j].xPosition += -player.xSpd - EnemySet[i].xspd;
+                    enemies[i][j].yPosition += EnemySet[i].yspd;
+                    enemies[i][j].startXposition += EnemySet[i].xspd;
+                }
+         
+                if (enemies[i][j].startXposition === enemies[i][j].scopeRight) {
+                    startSpeed[i][j] = false;
+                } else if (enemies[i][j].startXposition === enemies[i][j].scopeLeft) {
+                    startSpeed[i][j] = true;
+                }
+
+
+                for (var k = 0; k < block.length; k++) {
+                    for (var l = 0; l < block[k].length; l++) {
+                        if (enemies[i][j].collitionObject(block[k][l]) && enemies[i][j].yPosition + enemies[i][j].height > block[k][l].yPosition + enemies[i][j].ySpd) {
                             enemies[i][j].ySpd = 0;
-                            enemies[i][j].yPosition = block[i][j].yPosition - enemies[i][j].height;
+                            enemies[i][j].yPosition = block[k][l].yPosition - enemies[i][j].height;
                         }
                     }
                 }
-                */
-                
-
 
                 ctx.drawImage(enemies[i][j].sprite, enemies[i][j].xPosition, enemies[i][j].yPosition)
             }
         }
+
+
+
+
 
         //Lastly rendering the player
 
@@ -377,6 +394,7 @@ function enterBossBattle() {
 
     /*alll koden her */
 }
+
 
 
 
