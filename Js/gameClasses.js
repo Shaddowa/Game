@@ -41,6 +41,7 @@ class entity {
             return true;
         }
 
+               
 
 
         function entityLoss() {
