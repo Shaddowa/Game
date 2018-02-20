@@ -20,15 +20,3 @@ function displayControls(){
     
 }
 
-function stats(){ 
-    var stats = document.createElement("label");
-    stats.style.width = "100%";
-    stats.style.textAlign = "center";
-    stats.innerHTML = " You currently have " + collectable.Current + " / " + collectable.Total + " collectables";
-    contentEl.appendChild(stats);
-
-
-    if(collectable.Current === collectable.total){
-        enterBossBattle();
-    }
-}

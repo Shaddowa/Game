@@ -41,27 +41,30 @@ class entity {
             return true;
         }
 
-               
 
 
-        function entityLoss() {
 
+        this.entityLoss = function () {
             //if the player dies
-
-
-            // Collectables are not being saved
-            collectable.Current = collectable.Current - collectable.CurrentGame;
+            //Collectables are not being saved;
+            //
+            //collectable.Current = collectable.Current - collectable.CurrentGame;
         }
 
-        function entityWin() {
+
+
+        this.entityWin = function () {
 
             //if the player accomplishes the lvl
-            collectable.Current = collectable.Current + collectable.CurrentGame;
+            //collectable.Current = collectable.Current + collectable.CurrentGame;
+
 
         }
     }
 }
 
+
+//Collectable class (Carrots and coins)
 
 class collectable {
     constructor(img, xPosition, yPosition, width, height) {
@@ -75,6 +78,8 @@ class collectable {
     }
 }
 
+//Block/ Ground Class
+
 class blocks {
     constructor(img, xPosition, yPosition, width, height, damage) {
         this.sprite = new Image();
@@ -86,6 +91,8 @@ class blocks {
         this.damage = damage;
     }
 }
+
+//BulletsClass
 
 class bullets {
     constructor(startxPosition, xPosition, yPosition, xSpd, damage) {
