@@ -1,5 +1,5 @@
 //All the classes and functions
-var worlds = ["Fire", "Earth", "water", "wind"];
+var worlds = ["Fire", "Earth", "water"];
 class world {
     constructor(lvl, name) {
 
@@ -81,14 +81,16 @@ class collectable {
 //Block/ Ground Class
 
 class blocks {
-    constructor(img, xPosition, yPosition, width, height, damage) {
+    constructor(img, xPosition, yPosition, width, height) {
         this.sprite = new Image();
         this.sprite.src = img;
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.width = width;
         this.height = height;
-        this.damage = damage;
+        this.damage = 0;
+        this.speed = 0;
+        this.jump = 0;
     }
 }
 

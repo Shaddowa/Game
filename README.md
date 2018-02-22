@@ -117,3 +117,10 @@ Det som trengs å gjøres nå før spillet er i sin aller siste fase av noe spil
 og regulere hvor fort spilleren mister liv, etter dette kan vi begynne med å lage de forskjellige levlene, kanskje forskjellige fiende bevegelser og angrep. Men i prinsippet har vi et ferdig spill, som kan forbedres på mange måter.
 ----------------------------------------------------Tanker---------------------------------
 
+//22.02.2018 - Hanna lagde første prototype av spillet i sin helhet 
+
+Idag var målet og lage game stats, legge til how to play siden, koble sammen verdnene, og litt annet. Game stats er lagt til og how to play siden er fikset, men de ser stygge ut for nå. Vi har koblet sammen verdnene og sagt at man må ha akuratt en mengde gullerøtter om man skal kunne spille banen, slik at man ikke gjør den samme banen flere ganger. La også til forskjellige typer bakker, vanlige bakker, speedBoost bakker og jumpBoost bakker og damage bakker. Vi kan endre bildene til de forskjellige bakkene, men når spilleren står på dem, kommer bare konsollen opp, fordi vi ikke har spesifisert hva som skal skje. Det er viktig og ha en spillbar build slik at vi kan playteste hva vi allerede har. Da kan vi vite hva som funker og hva som ikke funker. 
+
+Det ser veldig stygt ut nå, men når vi får allt fra kunst klassen, legger til litt lydeffekter og musikk samt, fikser selve spillets GUI utseende blir nok dette veldig bra.
+
+//
