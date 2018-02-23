@@ -45,9 +45,9 @@ function enterLvl3() {
     //Placing the blocks
 
     var BlockSet = [
-        { antallBlokker: 20, xPos: 50, yPos: 90, damage: 5, speed: 0, jump: 0 },
-        { antallBlokker: 2, xPos: 400, yPos: 35, damage: 0, speed: 1, jump: 0 },
-        { antallBlokker: 2, xPos: -50, yPos: 115, damage: 0, speed: 0, jump: 1 }
+        { antallBlokker: 20, xPos: 50, yPos: 80, damage: 5, jump: 0 },
+        { antallBlokker: 20, xPos: 400, yPos: 35, damage: 0, jump: 0 },
+        { antallBlokker: 2, xPos: -50, yPos: 115, damage: 0, speed: 0, jump: 5 }
     ]
 
     var block = new Array();
@@ -159,15 +159,31 @@ function enterLvl3() {
 
     var ContiniueGame = true;
 
-
-    var bulletInventory = 0;
+    var bulletList = new Array();
+    var bulletInventory = 10;
     var bulletFired = false;
-    var bulletList = [];
+    var coolDown = false;
+
+    function iscoolingDown() {
+        coolDown = false;
+    }
+
+    var isHurting = false;
+    var damageCooldown = false;
+
+    function LifeLossCoolDown() {
+        damageCooldown = false;
+    }
+
+
 
     mainLoop();
-    //mainLoop
+
+
+
     function mainLoop() {
 
+        var gravity = 0.09;
         // Stats update
 
         coinCount.innerHTML = playerGameInventoryCoinCount;
@@ -175,7 +191,7 @@ function enterLvl3() {
 
 
         //
-        var gravity = 0.09;
+
         player.yPosition += player.ySpd;
         finnishLine.xPosition += -player.xSpd;
 
@@ -186,6 +202,7 @@ function enterLvl3() {
             player.xSpd = 3;
         }
 
+
         //If jump is true
 
         if (jump) {
@@ -193,10 +210,15 @@ function enterLvl3() {
             jump = false;
         }
 
-
         if (hasRealised && !onGround) {
             player.ySpd += gravity;
         }
+
+        if (player.ySpd < player.gravity) {
+            player.ySpd += player.weight;
+        }
+
+
 
 
 
@@ -204,9 +226,7 @@ function enterLvl3() {
             player.xSpd = 0;
         }
 
-        if (player.ySpd < player.gravity) {
-            player.ySpd += player.weight;
-        }
+
 
 
         // Health Logic
@@ -219,31 +239,9 @@ function enterLvl3() {
 
 
         // Wapon logic
+        /* How many bullets?
 
-
-        if (isShooting && bulletInventory != 0 && bulletFired == false) {
-
-            if (bulletFired == false) {
-                bulletInventory--;
-                //var thisBullet = new bullets(bulletStart)
-                //bulletList.push(thisBullet)
-                bulletFired = true;
-
-                console.log("hei");
-
-            }
-
-            if (bulletFired == true) {
-                setInterval(gunCooldown, 2000);
-            }
-
-            function gunCooldown() {
-                bulletFired = false;
-
-            }
-
-        }
-        if (playerGameInventoryCoinCount == 9) {
+        if (playerGameInventoryCoinCount == 10) {
             bulletInventory = 10;
         } if (playerGameInventoryCoinCount == 19) {
             bulletInventory = 20;
@@ -253,12 +251,31 @@ function enterLvl3() {
             bulletInventory = 40;
         }
 
+        */
 
+
+        if (isShooting && !coolDown) {
+            bulletFired = true;
+            coolDown = true;
+
+            bulletList.push(new bullets(player.xPosition + 20, player.yPosition, 5, 2))
+            console.log(bulletList);
+            if (coolDown) {
+                setTimeout(iscoolingDown, 1000);
+            }
+        }
 
 
         //Clearing the screen
 
         ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+
+        //Keeping track of the bullets
+
+        for (var i = 0; i < bulletList.length; i++){
+            bulletList[i].xPosition += -player.xSpd + bulletList[i].xSpd;
+            
+        }
 
 
         //Keeping track of the ground
@@ -269,24 +286,36 @@ function enterLvl3() {
                 block[i][j].xPosition += -player.xSpd;
                 if (player.collitionObject(block[i][j]) && player.yPosition + player.height < block[i][j].yPosition + player.ySpd) {
                     if (block[i][j].damage != 0) {
-                        console.log("du står på farlig bakke");
-                    }
-                    if (block[i][j].speed != 0) {
-                        console.log("Du får speed boost");
-                    }
-                    if (block[i][j].jump != 0) {
-                        console.log("Du får jump boost");
-                    }
-                    player.ySpd = 0;
-                    onGround = true;
-                    hasRealised = false;
-                    player.yPosition = block[i][j].yPosition - player.height;
-                }
 
+                        player.ySpd = 0;
+                        onGround = true;
+                        hasRealised = false;
+                        player.yPosition = block[i][j].yPosition - player.height;
+
+
+                    }
+                    else if (block[i][j].jump != 0) {
+
+                        player.ySpd = -block[i][j].jump;
+                        onGround = false;
+
+
+
+
+                    } else {
+                        player.ySpd = 0;
+                        onGround = true;
+                        player.yPosition = block[i][j].yPosition - player.height;
+
+                    }
+
+                }
 
             }
 
         }
+
+
 
         //Keeping track of the carrots
         for (var i = 0; i < carrots.length; i++) {
@@ -360,19 +389,30 @@ function enterLvl3() {
 
 
                 if (player.collitionObject(enemies[i][j])) {
-                    setTimeout(SubtractLife, 1000);
+                    console.log("du rører en fiende");
+                    if (!damageCooldown) {
+                        player.CurrentHp -=5;
+                        damageCooldown = true;
+                        console.log(player.CurrentHp);
 
+                        if (damageCooldown){
+                            console.log("tid");
+                            setTimeout(LifeLossCoolDown, 1000);
+                        }
+                    }
 
-
-                }
-                function SubtractLife() {
-                    player.CurrentHp--;
 
                 }
             }
         }
 
 
+
+        //rendering the bullets
+        for (var i = 0; i < bulletList.length; i++) {
+            ctx.fillRect(bulletList[i].xPosition, bulletList[i].yPosition, 5, 5);
+            console.log(bulletList[i].xPosition);
+        }
 
 
         //Rendering the coins
@@ -419,27 +459,27 @@ function enterLvl3() {
                 var obj = document.getElementById("gameStats");
                 obj.parentNode.removeChild(obj);
                 ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
-
+                playerTotalCarrotCount += playerGameInventoryCarrotCount;
                 lastLevel();
-
+                console.log(playerTotalCarrotCount + "/" + playerGameInventoryCarrotCount);
 
             }
         }
 
-
+        /*
         if (player.CurrentHp <= 0 || player.yPosition > canvasEl.height) {
             ContiniueGame = false;
             var obj = document.getElementById("gameStats");
             obj.parentNode.removeChild(obj);
-
+     
             var dyingText = document.createElement("h1");
             dyingText.id = "dyingText";
             dyingText.innerHTML = "YOU DIED BITCH";
             dyingText.style.textAlign = "center";
             dyingText.style.color = "red";
             dyingText.style.textShadow = "2px 2px black";
-
-
+     
+     
             var restartButton = document.createElement("div");
             restartButton.id = "restart";
             restartButton.style.width = "384px";
@@ -450,7 +490,7 @@ function enterLvl3() {
             contentEl.appendChild(dyingText);
             contentEl.appendChild(restartButton);
             console.log(restartButton);
-
+     
             function restart() {
                 var obj = document.getElementById("dyingText");
                 var obj1 = document.getElementById("restart");
@@ -458,8 +498,9 @@ function enterLvl3() {
                 obj1.parentNode.removeChild(obj1);
                 enterLvl1();
             }
-
+     
         }
+        */
 
         if (ContiniueGame == true) {
             setTimeout(mainLoop, 1000 / 60)
@@ -468,5 +509,3 @@ function enterLvl3() {
 
 
 }
-
-

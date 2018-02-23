@@ -15,7 +15,7 @@ var isShooting = false;
 var left = false;
 var right = false;
 var jump = false;
-var onGround ;
+var onGround;
 var hasRealised;
 
 function keyDown(e) {

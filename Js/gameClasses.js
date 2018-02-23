@@ -97,12 +97,12 @@ class blocks {
 //BulletsClass
 
 class bullets {
-    constructor(startxPosition, xPosition, yPosition, xSpd, damage) {
-        this.startxPosition = startxPosition;
+    constructor( xPosition, yPosition, xSpd, damage, direction) {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.xSpd = xSpd;
         this.damage = damage;
+        this.direction = direction;
     }
 }
 

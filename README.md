@@ -124,3 +124,12 @@ Idag var målet og lage game stats, legge til how to play siden, koble sammen ve
 Det ser veldig stygt ut nå, men når vi får allt fra kunst klassen, legger til litt lydeffekter og musikk samt, fikser selve spillets GUI utseende blir nok dette veldig bra.
 
 //
+
+//23.02.2018 - Hanna la til skytefunksjon med cooldown og cooldown på tap av liv
+
+Har fått til en skytefunskjon når spacebar er trykket ned og cooldown ikke er true. Kulene vil gå i den retningen spilleren beveger/bevegde seg Jeg brukte den samme logikken for å redusere spillerens liv. Etter playtesting skal vi tweeke på alle verdiene. La også til spesialiserte bakker, Når man er på en bakke med jumBoost, fungerer den som en trampoline og man hopper høyere, når mane er på bakke som gir damage, mister man liv.
+
+Den eneste buggen er at kulene eksisterer for alltid, så vi må endre dems oppførsel, og planen er å holde styr på dems startPosisjon og si at når startPosisjonen som vil øke med farten dens har nådd et hvist punkt, så skal kulene bli fjernet fra listen. Det gjør at selve kulen si posisjon som er relativt til spilleren ikke ødelegger denne mekanikken og glitching kan skje.
+
+Det gjenstår også å gi damage når kulene treffer en enemy, til nå vet den bare at den har truffet dem. Når den gir damage, vil vi fjerne kulen fra listen slik at den ikke skader flere fiender som er nærme hverandre. 
+//
