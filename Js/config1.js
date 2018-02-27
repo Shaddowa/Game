@@ -145,7 +145,7 @@ function enterLvl1() {
             enemies[i][j].scopeLeft = enemyStartXValue[i][j] - EnemySet[i].range;
 
             //Lastly we give the enemies their start value 
-            enemies[i][j].startXposition = enemyStartXValue[i][j].currentHp;
+            enemies[i][j].startXposition = enemyStartXValue[i][j];
 
         }
 
@@ -467,7 +467,7 @@ function enterLvl1() {
 
         ctx.drawImage(player.sprite, player.xPosition, player.yPosition);
         ctx.drawImage(finnishLine.sprite, finnishLine.xPosition, finnishLine.yPosition);
-
+        
 
 
 

@@ -1,4 +1,8 @@
 
+canvasEl.style.backgroundImage = "url(img/firstPicture.png)";
+canvasEl.style.backgroundRepeat = "no-repeat";
+canvasEl.style.backgroundPosition = "center";
+
 startButton.addEventListener("click", startSpill);
 howToButton.addEventListener("click", displayControls);
 
