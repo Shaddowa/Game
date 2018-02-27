@@ -133,3 +133,4 @@ Den eneste buggen er at kulene eksisterer for alltid, så vi må endre dems oppf
 
 Det gjenstår også å gi damage når kulene treffer en enemy, til nå vet den bare at den har truffet dem. Når den gir damage, vil vi fjerne kulen fra listen slik at den ikke skader flere fiender som er nærme hverandre. 
 //
+ofgroindfsonjdsonsojndsojn
