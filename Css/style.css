@@ -27,7 +27,12 @@ html body{
 }
 
 
-
+.text{
+    text-align: center;
+    font-size: 2em;
+    font-family: Century Gothic;
+    font-weight: bold;
+}
 
 
 
