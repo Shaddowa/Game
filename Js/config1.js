@@ -9,17 +9,17 @@ function enterLvl1() {
     var gameStats = document.createElement("div");
     gameStats.id = "gameStats";
     gameStats.style.height = "10%";
-    gameStats.style.backgroundColor = "hsla(44, 4%, 31%, 0.71)";
+    gameStats.style.backgroundColor = "orange";
     gameStats.style.display = "flex";
     gameStats.style.flexDirection = "row";
     gameStats.style.flexWrap = "wrap";
     gameStats.style.justifyContent = "space-around";
     var coinCount = document.createElement("p");
+    coinCount.className = "text";
     var carrotCount = document.createElement("p");
+    carrotCount.className = "text";
     var message = document.createElement("p");
-    coinCount.style.color = "white";
-    carrotCount.style.color = "white";
-    message.style.color = "white";
+    message.className = "text";
 
 
     //Appending all the stats
@@ -33,9 +33,9 @@ function enterLvl1() {
     //Setings for the player
     var playerName;
     var playerXPosition = canvasEl.width / 2;
-    var playerYPosition = 30;
-    var playerWidth = 15;
-    var playerHeight = 18;
+    var playerYPosition = canvasEl.height/2;
+    var playerWidth = 10;
+    var playerHeight = 12;
     var playerYspd = 2;
     var playerGravity = 20;
     var playerWeight = 0.05;
@@ -49,9 +49,9 @@ function enterLvl1() {
 
     //Block information
     var BlockSet = [
-        { antallBlokker: 20, xPos: 50, yPos: 80, damage: 0, jump: 0 },
-        { antallBlokker: 2, xPos: 400, yPos: 35, damage: 5, jump: 0 },
-        { antallBlokker: 2, xPos: -50, yPos: 115, damage: 0, speed: 0, jump: 5 }
+        { antallBlokker: 10, xPos: 100, yPos: 100, damage: 0, jump: 0 },
+        { antallBlokker: 2, xPos: 400, yPos: 115, damage: 0, jump: 5, speed : 0},
+        { antallBlokker: 2, xPos: 480, yPos: 30, damage: 0, speed: 0, jump: 0}
     ]
 
     //The vlock array which hold all the values of the blocks in game and which fetch information from the BlockSet
@@ -63,16 +63,16 @@ function enterLvl1() {
         for (var j = 0; j < BlockSet[i].antallBlokker; j++) {
 
             if (BlockSet[i].damage != 0) {
-                block[i][j] = new blocks("img/iu.jpg", BlockSet[i].xPos + (j * 40), BlockSet[i].yPos, 40, 40);
+                block[i][j] = new blocks("img/iu.jpg", BlockSet[i].xPos + (j * 20), BlockSet[i].yPos, 20,20);
                 block[i][j].damage = BlockSet[i].damage;
             } else if (BlockSet[i].speed != 0) {
-                block[i][j] = new blocks("img/iu.jpg", BlockSet[i].xPos + (j * 40), BlockSet[i].yPos, 40, 40);
+                block[i][j] = new blocks("img/iu.jpg", BlockSet[i].xPos + (j * 20), BlockSet[i].yPos, 20,20);
                 block[i][j].speed = BlockSet[i].speed;
             } else if (BlockSet[i].jump != 0) {
-                block[i][j] = new blocks("img/iu.jpg", BlockSet[i].xPos + (j * 40), BlockSet[i].yPos, 40, 40);
+                block[i][j] = new blocks("img/iu.jpg", BlockSet[i].xPos + (j * 20), BlockSet[i].yPos, 20,20);
                 block[i][j].jump = BlockSet[i].jump;
             } else {
-                block[i][j] = new blocks("img/iu.jpg", BlockSet[i].xPos + (j * 40), BlockSet[i].yPos, 40, 40);
+                block[i][j] = new blocks("img/iu.jpg", BlockSet[i].xPos + (j * 20), BlockSet[i].yPos, 20,20);
 
             }
         }
@@ -81,9 +81,9 @@ function enterLvl1() {
 
     //Doing the same with the coins as the ground
     var CoinSet = [
-        { antallCoins: 4, xPos: 50, yPos: 15 },
-        { antallCoins: 100, xPos: 400, yPos: 15 },
-        { antallCoins: 2, xPos: -50, yPos: 11 }
+        { antallCoins: 20, xPos: 200, yPos: 80 },
+        { antallCoins: 5, xPos: 400, yPos: 55 },
+        { antallCoins: 2, xPos: 500, yPos: 90 }
     ]
 
 
@@ -101,24 +101,24 @@ function enterLvl1() {
     //
     //And the carrots
     var CarrotSet = [
-        { xPos: 50, yPos: 35 },
-        { xPos: 500, yPos: 45 }
+        { xPos: 400, yPos: 15 }
+        //{ xPos: 500, yPos: 45 }
     ]
 
     var carrots = new Array();
 
     
     for (var i = 0; i < CarrotSet.length; i++) {
-        carrots[i] = new collectable("img/treasure.png", CarrotSet[i].xPos, CarrotSet[i].yPos, 2, 2)
+        carrots[i] = new collectable("img/treasure.png", CarrotSet[i].xPos, CarrotSet[i].yPos, 10, 10)
     }
     //
 
 
     //And the enemies, with a more complex system
     var EnemySet = [
-        { antallEnemies: 4, xPos: 50, yPos: 30, yspd: 0.5, xspd: 0.5, width: 15, height: 18, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 100 },
-        { antallEnemies: 5, xPos: 200, yPos: 20, yspd: 0.5, xspd: 0.5, width: 15, height: 18, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 200 },
-        { antallEnemies: 2, xPos: 400, yPos: 10, yspd: 0.5, xspd: 0.5, width: 15, height: 18, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 50 },
+        { antallEnemies: 0, xPos: 50, yPos: 30, yspd: 0.5, xspd: 0.5, width:10, height:12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 100 },
+        { antallEnemies: 0, xPos: 200, yPos: 20, yspd: 0.5, xspd: 0.5, width: 10, height:12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 200 },
+        { antallEnemies: 2, xPos: 490, yPos: 15, yspd: 0.5, xspd: 0.5, width: 10, height: 12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 10 },
     ]
 
     //Enemy arrays
@@ -151,7 +151,7 @@ function enterLvl1() {
             enemies[i][j].scopeLeft = enemyStartXValue[i][j] - EnemySet[i].range;
 
             //Lastly we give the enemies their start value 
-            enemies[i][j].startXposition = enemyStartXValue[i][j].currentHp;
+            enemies[i][j].startXposition = enemyStartXValue[i][j];
 
         }
 
@@ -190,6 +190,11 @@ function enterLvl1() {
 
 
     mainLoop();
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> bcba710d548014de455c5ecca3ef9e05e85ef53c
     function mainLoop() {
 
         var gravity = 0.09;
@@ -235,6 +240,7 @@ function enterLvl1() {
         }
 
 
+<<<<<<< HEAD
         // Wapon logic and inventory bullet count
         if (playerGameInventoryCoinCount == 10) {
             bulletInventory = 5;
@@ -244,6 +250,25 @@ function enterLvl1() {
         //REMEMBER TO IMPLEMENT BULLET COUNT LOGIC
         //where the bullets are created and determed which way it should travel
         //And also setting the cooldown
+=======
+
+
+        // Wapon logic
+
+        if(playerGameInventoryCoinCount == 10) {
+            bulletInventory = 10;
+        } if (playerGameInventoryCoinCount == 19) {
+            bulletInventory = 20;
+        } if (playerGameInventoryCoinCount == 29) {
+            bulletInventory = 30;
+        } if (playerGameInventoryCoinCount == 39) {
+            bulletInventory = 40;
+        }
+
+
+
+
+>>>>>>> bcba710d548014de455c5ecca3ef9e05e85ef53c
         if (isShooting && !coolDown) {
             bulletFired = true;
             coolDown = true;
@@ -260,7 +285,14 @@ function enterLvl1() {
             }
         }
 
+<<<<<<< HEAD
        
+=======
+
+        //Clearing the screen
+
+        
+>>>>>>> bcba710d548014de455c5ecca3ef9e05e85ef53c
 
         //Keeping track of the bullets
 
@@ -424,10 +456,14 @@ function enterLvl1() {
 
             }
         }
+<<<<<<< HEAD
 
         /*
         RENDERING SECTION OF THE GAME
         */
+=======
+        ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+>>>>>>> bcba710d548014de455c5ecca3ef9e05e85ef53c
 
         //Clearing the screen
         ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);  
@@ -470,7 +506,7 @@ function enterLvl1() {
         //Lastly rendering the player and the finnish line
         ctx.drawImage(player.sprite, player.xPosition, player.yPosition);
         ctx.drawImage(finnishLine.sprite, finnishLine.xPosition, finnishLine.yPosition);
-
+        
 
         //If the player collides with the finnishLine
         if (player.collitionObject(finnishLine)) {

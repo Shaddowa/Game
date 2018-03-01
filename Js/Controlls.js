@@ -7,6 +7,8 @@ var howToButton = document.querySelector(".button");
 var returnButton = document.createElement("button");
 
 
+
+
 //Events
 window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp)

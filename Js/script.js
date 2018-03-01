@@ -1,4 +1,8 @@
 
+canvasEl.style.backgroundImage = "url(img/firstPicture.png)";
+canvasEl.style.backgroundRepeat = "no-repeat";
+canvasEl.style.backgroundPosition = "center";
+
 startButton.addEventListener("click", startSpill);
 howToButton.addEventListener("click", displayControls);
 
@@ -44,31 +48,46 @@ function displayControls() {
     contentEl.style.display = "flex";
     var SectionControlsLeftRight = document.createElement("div");
     SectionControlsLeftRight.style.display = "flex";
-    SectionControlsLeftRight.style.justifyContent = "space-around";
+    SectionControlsLeftRight.style.width = "35%";
+    SectionControlsLeftRight.style.margin = "0 auto";
+    SectionControlsLeftRight.style.flexDirection = "column";
     var ControlLeftRightText = document.createElement("p");
-    ControlLeftRightText.style.fontSize = "50px";
+    ControlLeftRightText.className = "text";
+    ControlLeftRightText.style.color = "red";
+    SectionControlsLeftRight.style.textShadow = "2px 2px black";
     var PictureLeftRight = document.createElement("img");
-    PictureLeftRight.src = "img/arrowKeys.png";
+    PictureLeftRight.style.width = "70%";
+    PictureLeftRight.src = "img/piltaster.jpg";
     ControlLeftRightText.innerHTML = "Use arrow keys to move";
 
 
     var SectionJump = document.createElement("div");
     SectionJump.style.display = "flex";
-    SectionJump.style.justifyContent = "space-around";
+    SectionJump.style.width = "25%";
+    SectionJump.style.margin = "0 auto";
+    SectionJump.style.flexDirection = "column";
     var jumpText = document.createElement("p");
-    jumpText.style.fontSize = "50px";
+    jumpText.className = "text";
+    jumpText.style.color = "red";
+    jumpText.style.textShadow = "2px 2px black";
     jumpText.innerHTML = "Use up arrow to jump";
     var PictureJump = document.createElement("img");
-    PictureJump.src = "img/up.png";
+    PictureJump.src = "img/oppover.jpg";
+    PictureJump.style.width = "40%";
 
     var SectionShoot = document.createElement("div");
     SectionShoot.style.display = "flex";
+    SectionShoot.style.width = "20%";
+    SectionShoot.style.margin = "0 auto";
+    SectionShoot.style.flexDirection = "column";
     SectionShoot.style.justifyContent = "space-around";
     var shootText = document.createElement("p");
-    shootText.style.fontSize = "50px";
+    shootText.style.color ="red";
+    shootText.style.textShadow = "2px 2px black";
+    shootText.className = "text";
     shootText.innerHTML = "Use spacebar to shoot";
     var pictureShoot = document.createElement("img");
-    pictureShoot.src = "img/space.png";
+    pictureShoot.src = "img/space.jpg";
 
 
     contentEl.appendChild(SectionControlsLeftRight);
