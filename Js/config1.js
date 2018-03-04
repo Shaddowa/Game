@@ -14,11 +14,11 @@ function enterLvl1() {
     gameStats.style.flexWrap = "wrap";
     gameStats.style.justifyContent = "space-around";
     var coinCount = document.createElement("p");
-    coinCount.className = "text";
+    coinCount.className = "stats";
     var carrotCount = document.createElement("p");
-    carrotCount.className = "text";
+    carrotCount.className = "stats";
     var message = document.createElement("p");
-    message.className = "text";
+    message.className = "stats";
 
     gameStats.appendChild(coinCount);
     gameStats.appendChild(message);
@@ -30,13 +30,13 @@ function enterLvl1() {
     //Setings for the player
     var playerName;
     var playerXPosition = canvasEl.width / 2;
-    var playerYPosition = canvasEl.height/2;
+    var playerYPosition = canvasEl.height / 2;
     var playerWidth = 10;
     var playerHeight = 12;
     var playerYspd = 2;
     var playerGravity = 20;
     var playerWeight = 0.05;
-    var playerHp = 100;
+    var playerHp = 3;
     var playerDamage = 5;
 
     //
@@ -46,9 +46,9 @@ function enterLvl1() {
     //Placing the blocks
 
     var BlockSet = [
-        { antallBlokker: 10, xPos: 100, yPos: 100, damage: 0, jump: 0 },
-        { antallBlokker: 2, xPos: 400, yPos: 115, damage: 0, jump: 5, speed : 0},
-        { antallBlokker: 2, xPos: 480, yPos: 30, damage: 0, speed: 0, jump: 0}
+        { antallBlokker: 10, xPos: 100, yPos: 100, damage: 0, jump: 0, speed: 0 },
+        { antallBlokker: 2, xPos: 400, yPos: 115, damage: 0, jump: 5, speed: 0 },
+        { antallBlokker: 2, xPos: 480, yPos: 30, damage: 0, jump: 0, speed: 0 }
     ]
 
     var block = new Array();
@@ -59,21 +59,21 @@ function enterLvl1() {
         for (var j = 0; j < BlockSet[i].antallBlokker; j++) {
 
             if (BlockSet[i].damage != 0) {
-                block[i][j] = new blocks("img/iu.jpg", BlockSet[i].xPos + (j * 20), BlockSet[i].yPos, 20,20);
+                block[i][j] = new blocks("img/iu.jpg", BlockSet[i].xPos + (j * 20), BlockSet[i].yPos, 20, 20);
                 block[i][j].damage = BlockSet[i].damage;
             } else if (BlockSet[i].speed != 0) {
-                block[i][j] = new blocks("img/iu.jpg", BlockSet[i].xPos + (j * 20), BlockSet[i].yPos, 20,20);
+                block[i][j] = new blocks("img/iu.jpg", BlockSet[i].xPos + (j * 20), BlockSet[i].yPos, 20, 20);
                 block[i][j].speed = BlockSet[i].speed;
             } else if (BlockSet[i].jump != 0) {
-                block[i][j] = new blocks("img/iu.jpg", BlockSet[i].xPos + (j * 20), BlockSet[i].yPos, 20,20);
+                block[i][j] = new blocks("img/iu.jpg", BlockSet[i].xPos + (j * 20), BlockSet[i].yPos, 20, 20);
                 block[i][j].jump = BlockSet[i].jump;
             } else {
-                block[i][j] = new blocks("img/iu.jpg", BlockSet[i].xPos + (j * 20), BlockSet[i].yPos, 20,20);
+                block[i][j] = new blocks("img/iu.jpg", BlockSet[i].xPos + (j * 20), BlockSet[i].yPos, 20, 20);
 
             }
         }
     }
-  
+
 
     //placing the coins
     var CoinSet = [
@@ -112,8 +112,8 @@ function enterLvl1() {
 
     //Placing the enemies
     var EnemySet = [
-        { antallEnemies: 0, xPos: 50, yPos: 30, yspd: 0.5, xspd: 0.5, width:10, height:12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 100 },
-        { antallEnemies: 0, xPos: 200, yPos: 20, yspd: 0.5, xspd: 0.5, width: 10, height:12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 200 },
+        { antallEnemies: 0, xPos: 50, yPos: 30, yspd: 0.5, xspd: 0.5, width: 10, height: 12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 100 },
+        { antallEnemies: 0, xPos: 200, yPos: 20, yspd: 0.5, xspd: 0.5, width: 10, height: 12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 200 },
         { antallEnemies: 2, xPos: 490, yPos: 15, yspd: 0.5, xspd: 0.5, width: 10, height: 12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 10 },
     ]
 
@@ -186,8 +186,8 @@ function enterLvl1() {
         var gravity = 0.09;
         // Stats update
 
-        coinCount.innerHTML = playerGameInventoryCoinCount;
-        carrotCount.innerHTML = playerGameInventoryCarrotCount;
+        coinCount.innerHTML = playerGameInventoryCoinCount + "<br> Coins ";
+        carrotCount.innerHTML = playerGameInventoryCarrotCount  + "<br> Carrots";
 
 
         //
@@ -240,7 +240,7 @@ function enterLvl1() {
 
         // Wapon logic
 
-        if(playerGameInventoryCoinCount == 10) {
+        if (playerGameInventoryCoinCount == 10) {
             bulletInventory = 10;
         } if (playerGameInventoryCoinCount == 19) {
             bulletInventory = 20;
@@ -256,13 +256,13 @@ function enterLvl1() {
         if (isShooting && !coolDown) {
             bulletFired = true;
             coolDown = true;
-            if(left){
+            if (left) {
                 bulletList.push(new bullets(player.xPosition - 20, player.yPosition, 5, 2, "Left"))
-            } else{
-                bulletList.push(new bullets(player.xPosition + 20, player.yPosition, 5, 2,"Right"))
+            } else {
+                bulletList.push(new bullets(player.xPosition + 20, player.yPosition, 5, 2, "Right"))
             }
-            
-          
+
+
             if (coolDown) {
                 setTimeout(iscoolingDown, 1000);
             }
@@ -271,14 +271,14 @@ function enterLvl1() {
 
         //Clearing the screen
 
-        
+
 
         //Keeping track of the bullets
 
-        for (var i = 0; i < bulletList.length; i++){
-            if(bulletList[i].direction == "Left"){
+        for (var i = 0; i < bulletList.length; i++) {
+            if (bulletList[i].direction == "Left") {
                 bulletList[i].xPosition += -player.xSpd - bulletList[i].xSpd;
-            }else if(bulletList[i].direction == "Right"){
+            } else if (bulletList[i].direction == "Right") {
                 bulletList[i].xPosition += -player.xSpd + bulletList[i].xSpd;
             }
         }
@@ -294,11 +294,11 @@ function enterLvl1() {
                     if (block[i][j].damage != 0) {
 
                         if (!damageCooldown) {
-                            player.CurrentHp -=5;
+                            player.CurrentHp -= 5;
                             damageCooldown = true;
-                            
-    
-                            if (damageCooldown){
+
+
+                            if (damageCooldown) {
                                 setTimeout(LifeLossCoolDown, 1000);
                             }
                         }
@@ -409,13 +409,21 @@ function enterLvl1() {
                 if (player.collitionObject(enemies[i][j])) {
                     console.log("du rører en fiende");
                     if (!damageCooldown) {
-                        player.CurrentHp -=5;
+                        player.CurrentHp--;
+                        new Audio('audio/ping.mp3').play();
                         damageCooldown = true;
-                      
 
-                        if (damageCooldown){
-                         
+                        if(player.CurrentHp == "2"){
+                            contentEl.style.backgroundColor ="hsla(0, 100%, 50%, 0.025)";
+                        } else if( player.CurrentHp == "1"){
+                            contentEl.style.backgroundColor ="hsla(0, 100%, 50%, 0.05)";
+                        }
+
+
+                        if (damageCooldown) {
+
                             setTimeout(LifeLossCoolDown, 1000);
+
                         }
                     }
 
@@ -429,7 +437,7 @@ function enterLvl1() {
         //rendering the bullets
         for (var i = 0; i < bulletList.length; i++) {
             ctx.fillRect(bulletList[i].xPosition, bulletList[i].yPosition, 5, 5);
-            
+
         }
 
 
@@ -465,7 +473,7 @@ function enterLvl1() {
 
         ctx.drawImage(player.sprite, player.xPosition, player.yPosition);
         ctx.drawImage(finnishLine.sprite, finnishLine.xPosition, finnishLine.yPosition);
-        
+
 
 
 
@@ -478,47 +486,55 @@ function enterLvl1() {
                 obj.parentNode.removeChild(obj);
                 ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
                 playerTotalCarrotCount += playerGameInventoryCarrotCount;
-                createWorld();
-                console.log(playerTotalCarrotCount + "/" + playerGameInventoryCarrotCount);
+                var victoryButton = document.createElement("div");
+                victoryButton.id = "nextWorld";
+                victoryButton.style.width = "100%";
+                victoryButton.style.height = "100%";
+                victoryButton.style.backgroundImage = "url('img/GameComplete.png')";
+                victoryButton.style.margin = "0 auto";
+                victoryButton.addEventListener("click", nextWorld);
+                contentEl.appendChild(victoryButton);
+
+
+                function nextWorld() {
+                    new Audio('audio/ping.mp3').play();
+
+                    var obj1 = document.getElementById("nextWorld");
+                    obj1.parentNode.removeChild(obj1);
+                    createWorld();
+                }
+
 
             }
         }
 
-        /*
+
         if (player.CurrentHp <= 0 || player.yPosition > canvasEl.height) {
             ContiniueGame = false;
             var obj = document.getElementById("gameStats");
             obj.parentNode.removeChild(obj);
-     
-            var dyingText = document.createElement("h1");
-            dyingText.id = "dyingText";
-            dyingText.innerHTML = "YOU DIED BITCH";
-            dyingText.style.textAlign = "center";
-            dyingText.style.color = "red";
-            dyingText.style.textShadow = "2px 2px black";
-     
-     
+
             var restartButton = document.createElement("div");
             restartButton.id = "restart";
-            restartButton.style.width = "384px";
-            restartButton.style.height = "256px";
-            restartButton.style.backgroundImage = "url('img/buttonRestart.png')";
+            restartButton.style.width = "100%";
+            restartButton.style.height = "100%";
+            restartButton.style.backgroundImage = "url('img/gameOver.png')";
             restartButton.style.margin = "0 auto";
             restartButton.addEventListener("click", restart);
-            contentEl.appendChild(dyingText);
             contentEl.appendChild(restartButton);
-            console.log(restartButton);
-     
+
             function restart() {
-                var obj = document.getElementById("dyingText");
+                new Audio('audio/ping.mp3').play();
+                contentEl.style.backgroundColor = "initial";
+
                 var obj1 = document.getElementById("restart");
-                obj.parentNode.removeChild(obj);
+
                 obj1.parentNode.removeChild(obj1);
                 enterLvl1();
             }
-     
+
         }
-        */
+
 
         if (ContiniueGame == true) {
             setTimeout(mainLoop, 1000 / 60)

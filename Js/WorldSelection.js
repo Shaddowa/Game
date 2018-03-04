@@ -3,8 +3,8 @@ var playerTotalCarrotCount = 0;
 
 function createWorld() {
     canvasEl.style.backgroundImage = "url(img/map.png)";
-   
-    
+
+
 
     var stats = document.createElement("label");
     stats.id = "stats";
@@ -14,7 +14,6 @@ function createWorld() {
     contentEl.appendChild(stats);
 
     //World section
-
 
     var worldOne = document.createElement("div");
     worldOne.id = "world1";
@@ -33,10 +32,14 @@ function createWorld() {
     pEl1.className = "text";
     pEl1.style.color = "salmon";
     pEl1.style.textShadow = "2px 2px black";
-    worldOne.appendChild(pEl1);
+    pEl1.style.position = "absolute";
+    pEl1.style.top = "63%";
+    pEl1.style.left = "19%";
+
     worldOne.addEventListener("click", loadWorld)
     contentEl.appendChild(worldOne);
-    
+    contentEl.appendChild(pEl1);
+
 
     var worldTwo = document.createElement("div");
     worldTwo.id = "world2";
@@ -55,9 +58,12 @@ function createWorld() {
     pEl2.className = "text";
     pEl2.style.color = "salmon";
     pEl2.style.textShadow = "2px 2px black";
-    worldTwo.appendChild(pEl2);
+    pEl2.style.position = "absolute";
+    pEl2.style.top = "20%";
+    pEl2.style.left = "43.5%";
     worldTwo.addEventListener("click", loadWorld);
     contentEl.appendChild(worldTwo);
+    contentEl.appendChild(pEl2);
 
     var worldThree = document.createElement("div");
     worldThree.id = "world3";
@@ -75,52 +81,50 @@ function createWorld() {
     pEl3.style.cursor = "default";
     pEl3.className = "text";
     pEl3.style.color = "salmon";
-    pEl3.style.textShadow = "3px 3px black";
-    worldThree.appendChild(pEl3);
+    pEl3.style.textShadow = "2px 2px black";
+    pEl3.style.position = "absolute";
+    pEl3.style.top = "45%";
+    pEl3.style.left = "61%";
     worldThree.addEventListener("click", loadWorld);
     contentEl.appendChild(worldThree);
+    contentEl.appendChild(pEl3);
 
 }
 
 function loadWorld(e) {
+
+    canvasEl.style.backgroundImage = "none";
+
     var curretTarget = e.target;
-    var worldEl = document.querySelectorAll(".world");
     var obj = document.getElementById("stats");
+    obj.parentNode.removeChild(obj);
 
-    if (curretTarget.id === "world1" && playerTotalCarrotCount == 0){
-        obj.parentNode.removeChild(obj);
-        canvasEl.style.backgroundImage = "none";
+    var worldEl = document.querySelectorAll(".world");
+    var textEl = document.querySelectorAll(".text")
 
+   
+    for (var i = 0; i < worldEl.length; i++) {
+        var currentWorld = worldEl[i];
+        currentWorld.parentNode.removeChild(currentWorld);
+    }
+
+    for(var j = 0; j< textEl.length; j++){
+        var currentText = textEl[j];
+        currentText.parentNode.removeChild(currentText);
+    }
+
+    if (curretTarget.id === "world1" && playerTotalCarrotCount == 0) {
         enterLvl1();
-       
 
-        for (var i = 0; i < worldEl.length; i++) {
-            var currentWorld = worldEl[i];
-            currentWorld.parentNode.removeChild(currentWorld);
-        }
-
-
-    } else if (curretTarget.id === "world3" && playerTotalCarrotCount == 2){
-        canvasEl.style.backgroundImage = "none";
-        obj.parentNode.removeChild(obj);
-        enterLvl2();
+    } else if (curretTarget.id === "world2" && playerTotalCarrotCount == 1) {
         
+        enterLvl2();
 
-        for (var i = 0; i < worldEl.length; i++) {
-            var currentWorld = worldEl[i];
-            currentWorld.parentNode.removeChild(currentWorld);
-        }
 
-    } else if (curretTarget.id === "world3" && playerTotalCarrotCount == 4){
-        canvasEl.style.backgroundImage = "none";
-        obj.parentNode.removeChild(obj);
+    } else if (curretTarget.id === "world3" && playerTotalCarrotCount == 4) {
+    
         enterLvl3();
-       
 
-        for (var i = 0; i < worldEl.length; i++) {
-            var currentWorld = worldEl[i];
-            currentWorld.parentNode.removeChild(currentWorld);
-        }
     }
 
 }

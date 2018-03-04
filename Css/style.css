@@ -34,6 +34,14 @@ html body{
     font-weight: bold;
 }
 
+.stats {
+    text-align: center;
+    font-size: 1em;
+    font-family: Century Gothic;
+    font-style: italic;
+   
+}
+
 
 
 #startGame{
