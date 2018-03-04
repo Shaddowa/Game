@@ -1,9 +1,10 @@
 function enterLvl3() {
+    //Setting the inventory of the player to 0
     var playerGameInventoryCoinCount = 0;
     var playerGameInventoryCarrotCount = 0;
 
 
-    // Displaying the stats
+    // Displaying the stats in upper part of the screen
     var gameStats = document.createElement("div");
     gameStats.id = "gameStats";
     gameStats.style.height = "10%";
@@ -19,6 +20,8 @@ function enterLvl3() {
     var message = document.createElement("p");
     message.className = "stats";
 
+
+    //Appending all the stats
     gameStats.appendChild(coinCount);
     gameStats.appendChild(message);
     gameStats.appendChild(carrotCount);
@@ -40,19 +43,20 @@ function enterLvl3() {
 
     //
 
+    //Making the player
     var player = new entity("img/Small1.png", playerXPosition, playerYPosition, playerWidth, playerHeight, playerYspd, playerGravity, playerWeight, playerHp, playerDamage, playerName)
 
-    //Placing the blocks
-
+    //Block information
     var BlockSet = [
         { antallBlokker: 10, xPos: 100, yPos: 100, damage: 0, jump: 0, speed: 0 },
         { antallBlokker: 2, xPos: 400, yPos: 115, damage: 0, jump: 5, speed: 0 },
         { antallBlokker: 2, xPos: 480, yPos: 30, damage: 0, jump: 0, speed: 0 }
     ]
 
+    //The vlock array which hold all the values of the blocks in game and which fetch information from the BlockSet
     var block = new Array();
 
-    //Creating the ground
+    //Creating the ground using the block array and the BlockSet array/objects
     for (var i = 0; i < BlockSet.length; i++) {
         block[i] = new Array();
         for (var j = 0; j < BlockSet[i].antallBlokker; j++) {
@@ -74,7 +78,7 @@ function enterLvl3() {
     }
 
 
-    //placing the coins
+    //Doing the same with the coins as the ground
     var CoinSet = [
         { antallCoins: 20, xPos: 200, yPos: 80 },
         { antallCoins: 5, xPos: 400, yPos: 55 },
@@ -84,18 +88,17 @@ function enterLvl3() {
 
     var playerCoins = new Array();
 
-    //Creating the coins
+
     for (var i = 0; i < CoinSet.length; i++) {
         playerCoins[i] = new Array();
 
         for (var j = 0; j < CoinSet[i].antallCoins; j++) {
             playerCoins[i][j] = new collectable("img/coin.png", CoinSet[i].xPos + (j * 20), CoinSet[i].yPos, 2, 2);
-
         }
-
     }
 
-    //Placing the Carrots
+    //
+    //And the carrots
     var CarrotSet = [
         { xPos: 400, yPos: 15 }
         //{ xPos: 500, yPos: 45 }
@@ -103,13 +106,14 @@ function enterLvl3() {
 
     var carrots = new Array();
 
-    //Creating the carrots
+
     for (var i = 0; i < CarrotSet.length; i++) {
         carrots[i] = new collectable("img/treasure.png", CarrotSet[i].xPos, CarrotSet[i].yPos, 10, 10)
     }
+    //
 
 
-    //Placing the enemies
+    //And the enemies, with a more complex system
     var EnemySet = [
         { antallEnemies: 0, xPos: 50, yPos: 30, yspd: 0.5, xspd: 0.5, width: 10, height: 12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 100 },
         { antallEnemies: 0, xPos: 200, yPos: 20, yspd: 0.5, xspd: 0.5, width: 10, height: 12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 200 },
@@ -118,7 +122,9 @@ function enterLvl3() {
 
     //Enemy arrays
     var enemies = new Array();
+    //Enemies start position array
     var enemyStartXValue = new Array();
+    //If they are going left or right
     var startSpeed = new Array();
 
     //Creating the enemies and their startxPosition and their startSpeed
@@ -156,44 +162,49 @@ function enterLvl3() {
 
 
 
-
+    //If continue game is true, the loop should continue
     var ContiniueGame = true;
 
+    //Creating the bullet logic for the player
     var bulletList = new Array();
     var bulletInventory = 0;
     var bulletFired = false;
     var coolDown = false;
 
+
     function iscoolingDown() {
         coolDown = false;
     }
 
+    //
+
+    //Cooldown for loosing life
     var isHurting = false;
     var damageCooldown = false;
 
     function LifeLossCoolDown() {
         damageCooldown = false;
     }
-
+    //
 
 
     mainLoop();
-
-
     function mainLoop() {
 
         var gravity = 0.09;
         // Stats update
 
         coinCount.innerHTML = playerGameInventoryCoinCount + "<br> Coins ";
-        carrotCount.innerHTML = playerGameInventoryCarrotCount  + "<br> Carrots";
+        carrotCount.innerHTML = playerGameInventoryCarrotCount + "<br> Carrots";
 
 
         //
 
+        //Player logic and saying that the finnish line should be relative to the players xPosition
         player.yPosition += player.ySpd;
         finnishLine.xPosition += -player.xSpd;
 
+        //Player moving logic
         if (left) {
             player.xSpd = -3;
         }
@@ -201,9 +212,11 @@ function enterLvl3() {
             player.xSpd = 3;
         }
 
+        if (!left && !right) {
+            player.xSpd = 0;
+        }
 
-        //If jump is true
-
+        //Player jumping logic
         if (jump) {
             player.ySpd = -2.5;
             jump = false;
@@ -218,40 +231,21 @@ function enterLvl3() {
         }
 
 
-
-
-
-        if (!left && !right) {
-            player.xSpd = 0;
-        }
-
-
-
-
-        // Health Logic
-
+        // Health Logic if player is not on the canvas
         if (player.yPosition > canvasEl.height) {
             player.CurrentHp = 0;
         }
 
 
-
-
-        // Wapon logic
-
+        // Wapon logic and inventory bullet count
         if (playerGameInventoryCoinCount == 10) {
-            bulletInventory = 10;
-        } if (playerGameInventoryCoinCount == 19) {
-            bulletInventory = 20;
-        } if (playerGameInventoryCoinCount == 29) {
-            bulletInventory = 30;
-        } if (playerGameInventoryCoinCount == 39) {
-            bulletInventory = 40;
+            bulletInventory = 5;
+            playerGameInventoryCoinCount = 0;
         }
 
-
-
-
+        //REMEMBER TO IMPLEMENT BULLET COUNT LOGIC
+        //where the bullets are created and determed which way it should travel
+        //And also setting the cooldown
         if (isShooting && !coolDown) {
             bulletFired = true;
             coolDown = true;
@@ -261,11 +255,12 @@ function enterLvl3() {
                 bulletList.push(new bullets(player.xPosition + 20, player.yPosition, 5, 2, "Right"))
             }
 
-
             if (coolDown) {
                 setTimeout(iscoolingDown, 1000);
             }
         }
+
+
 
 
         //Clearing the screen
@@ -278,9 +273,28 @@ function enterLvl3() {
             if (bulletList[i].direction == "Left") {
                 bulletList[i].xPosition += -player.xSpd - bulletList[i].xSpd;
             } else if (bulletList[i].direction == "Right") {
-                bulletList[i].xPosition += -player.xSpd + bulletList[i].xSpd;
+
+                //Keeping track of the bullets
+
+                for (var i = 0; i < bulletList.length; i++) {
+
+                    if (bulletList[i].direction == "Left") {
+                        bulletList[i].xPosition += -player.xSpd - bulletList[i].xSpd;
+
+
+                    } else if (bulletList[i].direction == "Right") {
+
+                        bulletList[i].xPosition += -player.xSpd + bulletList[i].xSpd;
+
+                    }
+                }
             }
         }
+
+
+
+
+
 
 
         //Keeping track of the ground
@@ -405,17 +419,18 @@ function enterLvl3() {
                 }
 
 
+
                 if (player.collitionObject(enemies[i][j])) {
-                    
+                    console.log("du rører en fiende");
                     if (!damageCooldown) {
                         player.CurrentHp--;
                         new Audio('audio/ping.mp3').play();
                         damageCooldown = true;
 
-                        if(player.CurrentHp == "2"){
-                            contentEl.style.backgroundColor ="hsla(0, 100%, 50%, 0.025)";
-                        } else if( player.CurrentHp == "1"){
-                            contentEl.style.backgroundColor ="hsla(0, 100%, 50%, 0.05)";
+                        if (player.CurrentHp == "2") {
+                            contentEl.style.backgroundColor = "hsla(0, 100%, 50%, 0.025)";
+                        } else if (player.CurrentHp == "1") {
+                            contentEl.style.backgroundColor = "hsla(0, 100%, 50%, 0.05)";
                         }
 
 
@@ -428,10 +443,16 @@ function enterLvl3() {
 
 
                 }
+
             }
         }
-        ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
 
+        /*
+        RENDERING SECTION OF THE GAME
+        */
+
+        //Clearing the screen
+        ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
 
         //rendering the bullets
         for (var i = 0; i < bulletList.length; i++) {
@@ -468,14 +489,12 @@ function enterLvl3() {
 
 
 
-        //Lastly rendering the player
-
+        //Lastly rendering the player and the finnish line
         ctx.drawImage(player.sprite, player.xPosition, player.yPosition);
         ctx.drawImage(finnishLine.sprite, finnishLine.xPosition, finnishLine.yPosition);
 
 
-
-
+        //If the player collides with the finnishLine
         if (player.collitionObject(finnishLine)) {
             if (carrots.length != 0) {
                 message.innerHTML = "You haven't collected all the carrots";
@@ -507,7 +526,6 @@ function enterLvl3() {
             }
         }
 
-
         if (player.CurrentHp <= 0 || player.yPosition > canvasEl.height) {
             ContiniueGame = false;
             var obj = document.getElementById("gameStats");
@@ -517,13 +535,14 @@ function enterLvl3() {
             restartButton.id = "restart";
             restartButton.style.width = "100%";
             restartButton.style.height = "100%";
-            restartButton.style.backgroundImage = "url('img/gameOver.png')";
+            restartButton.style.backgroundImage = "url('img/gameOverNew.png')";
             restartButton.style.margin = "0 auto";
             restartButton.addEventListener("click", restart);
             contentEl.appendChild(restartButton);
 
             function restart() {
                 new Audio('audio/ping.mp3').play();
+                contentEl.style.backgroundColor = "initial";
 
                 var obj1 = document.getElementById("restart");
 
@@ -534,6 +553,7 @@ function enterLvl3() {
         }
 
 
+        //Determening if the loop should go on
         if (ContiniueGame == true) {
             setTimeout(mainLoop, 1000 / 60)
         }

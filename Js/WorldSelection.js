@@ -121,7 +121,7 @@ function loadWorld(e) {
         enterLvl2();
 
 
-    } else if (curretTarget.id === "world3" && playerTotalCarrotCount == 4) {
+    } else if (curretTarget.id === "world3" && playerTotalCarrotCount == 2) {
     
         enterLvl3();
 
