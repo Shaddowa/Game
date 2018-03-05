@@ -139,3 +139,97 @@ Det gjenstår også å gi damage når kulene treffer en enemy, til nå vet den b
 La til noen bilder så spillet vårt ser mer polished ut
 
 //
+
+
+//
+
+// 02.03.2018 (Pt 1)  fikse skytefunksjon i spillet så forsvinner ikke skuddet når vi har avfyrt den og enimiesene forsvinner ikke når de blir truffet. har lagt til en to for-løkker som skal gå gjennom enemies array og sjekke om enimies har kollidert med skuddet gjennom en if-test. vis den har skal skudd-objektet og enemy-objektet slettes.
+
+**bug** når du avfyrer to skudd så kræsjer spillet. i tilegg registerers det ikke kollisjon mellom skudd og enemien. jeg tror årsaken til dette er fordi den originalet kollisjonssystemet sjekker bare kollisjon mellom to objekter fra entity-classen. med vektor kollisjon systemet skal det løse dette.
+
+endret navnet til egenskapene i enemyset-objektet. endret dem fra "x.pos" til "x.posistion" og det samme med y.
+
+----update----
+
+jeg fjernet de to dimensjonale for-løkkene som skulle sjekke kollisjon mellom bullet og entity. jeg fjernet også et par endringer. nå er config1, altså level 1, tilbake til til orginal versjon som fikset problemet to skudd kræsj buggen. jeg har nå lagt til en for-løkke inni løkken "keeping track of the enemies", som skal sjekke kollisjon mellom enemies og skuddet. men jeg har fått en bug. 
+
+**bug** sirkelene vi skal trykke på når vi har valgt et nivå blir forsatt på skjermen. jeg får syntax feil" Uncaught TypeError: Cannot read property 'width' of undefined", så det er en problem i classene. 
+ //
+
+ // 03.03.2018 Anjayan (Pt 2) 
+
+ 
+
+ tenker løsningen til buggen er at jeg fjerner bullet-classen, og gjør at bullets skal nå bruke entity classen. dette tenker jeg vil løse problemet med at kollisjon metoden for syntax feilen, fordi den sier det er undefined. en annen grunn er at bullets classen og entity classen er ganske lik ,så det kan like godt erstattet. 
+
+en felles regel, husk at javascript er case-sensitiv -_-
+
+ **bug**
+ jo mer jeg jobber med koden jo mer syntax feil kommer opp. disse feilene virkes urelevante
+fordi de har noe ikke sammenheng med  endringene jeg har kodet. kanskje årsaken er en krølleparantes -_- . 
+
+syntax feilen:
+----------{
+config1.js:7 Uncaught ReferenceError: coinCount is not defined
+    at mainLoop (file:///C:/Users/anjaya1005/Desktop/Game-master%20(1)%20(1)(1)/Game-master/Js/config1.js:7:5)
+    at enterLvl1 (file:///C:/Users/anjaya1005/Desktop/Game-master%20(1)%20(1)(1)/Game-master/Js/config1.js:536:5)
+    at HTMLDivElement.loadWorld (file:///C:/Users/anjaya1005/Desktop/Game-master%20(1)%20(1)(1)/Game-master/Js/WorldSelection.js:94:9)
+mainLoop @ config1.js:7
+enterLvl1 @ config1.js:536
+loadWorld @ WorldSelection.js:94
+WorldSelection.js:89 world1
+WorldSelection.js:91 Uncaught TypeError: Cannot read property 'parentNode' of null
+    at HTMLDivElement.loadWorld (file:///C:/Users/anjaya1005/Desktop/Game-master%20(1)%20(1)(1)/Game-master/Js/WorldSelection.js:91:13)
+loadWorld @ WorldSelection.js:91
+WorldSelection.js:89 world1
+WorldSelection.js:91 Uncaught TypeError: Cannot read property 'parentNode' of null
+    at HTMLDivElement.loadWorld (file:///C:/Users/anjaya1005/Desktop/Game-master%20(1)%20(1)(1)/Game-master/Js/WorldSelection.js:91:13)
+loadWorld @ WorldSelection.js:91
+WorldSelection.js:89 
+------------}
+  
+
+//04.04.2018 anjayan (PT 3)
+ 
+ JEG GIR OPP. jeg kommer til å jobbe rundt den ene buggen hvor syntaxen  er " Uncaught TypeError: Cannot read property 'width' of undefined". det samme med buggene over ^^^^^. 
+
+ planen for i dag er å legge til to typer zombie aktige enemies som skal følge etter spilleren. den ene kan bare følge etter deg, mens den andre hoppe over hinder. jeg skal også legge til registrering av kollisjon når spiller treffer enemy på hodet. da vil den forsvinne.
+ 
+
+ ///
+
+
+
+
+ //04.04.2018 PT 4 
+
+kollisjon mellom bullet og enemy:
+ jeg fjernet den nye kollissjon systemet og brukte den gamle. så når de kolliderer så blir det true, og når det blir true så vil den bruke splice også fjerne en bullet fra arrayen. 
+ løsningen var at jeg måtte lage en ny for-løkke som skal gå gjennom bullet-list arrayen. så den vil gå gjennom alle bullettene og sjekke om de har kollidert med enemyen. syntax problem løst. 
+
+ samtidig så blir enemy fjernet fra arrayennår den kolliderer med bullet. samme metode for å fjerne, brukte indexof og splice. 
+
+
+
+
+
+//
+
+//check list:
+viktig
+-lage baner/nivåer.-anjayan
+-få sprite til å funke -hannah
+-legg til pistolen.- anjayan
+-fikse kvaliteten til bildene.-anjayan
+-scroller backgrunnen ( x-retning)-begge 
+-legge til flere typer blocker, som på topp, siden, bunnen og i midten. design for blokker man mister liv på og får trampoline blokker.-hanna tar damage block, anjayan tar jump block.
+-bullets skal ikke være unlimited, jo mer bullets jo mer du diamanter du har. 
+-fikse shooting bug, bullets er usynelig?-
+
+mindre viktig:
+-lyd-til sist
+-fikse zombie enemy, altså differanse-anjayan
+-kollisjon på siden av hinder blocker.-anjayan
+-legge til boss-nivå, med boss. -til sist
+-legge til storeline.-hannah
+
