@@ -5,7 +5,7 @@ function enterLvl1() {
     backgroungimg.src = "./img/bakgrunn1.png";
     backgroungimg.style.width = canvasEl.width;
     backgroungimg.style.height = canvasEl.height;
-    
+
     console.log(canvasEl.width, canvasEl.height);
     //Setting the inventory of the player to 0
     var playerGameInventoryDiamondCount = 0;
@@ -123,9 +123,10 @@ function enterLvl1() {
 
     //And the enemies, with a more complex system
     var EnemySet = [
-        { antallEnemies: 2, xPos: 300, yPos: 30, yspd: 0.5, xspd: 0.5, width: 10, height: 12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 100, name: "zombie" },
-        { antallEnemies: 0, xPos: 200, yPos: 20, yspd: 0.5, xspd: 0.5, width: 10, height: 12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 200, name: "normal" },
-        { antallEnemies: 2, xPos: 490, yPos: 15, yspd: 0.5, xspd: 0.5, width: 10, height: 12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 10, name: "normal" },
+        { antallEnemies: 2, xPos: 320, yPos: 30, yspd: 0.5, xspd: 0.5, width: 10, height: 12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 20, name: "normal" },
+        { antallEnemies: 1, xPos: 250, yPos: 20, yspd: 0.5, xspd: 0.5, width: 10, height: 12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 20, name: "zombie" },
+        { antallEnemies: 2, xPos: 490, yPos: 35, yspd: 0.5, xspd: 0.5, width: 10, height: 12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 10, name: "normal" },
+        { antallEnemies: 2, xPos: 200, yPos: 15, yspd: 0.5, xspd: 0.5, width: 10, height: 12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 10, name: "normal" }
     ]
 
     var differanse = new Array();
@@ -163,6 +164,8 @@ function enterLvl1() {
             //Lastly we give the enemies their start value 
             enemies[i][j].startXposition = enemyStartXValue[i][j];
 
+            //For zombie classen
+            differanse[i][j] = player.xPosition - enemies[i][j].xPosition;
 
         }
 
@@ -210,6 +213,7 @@ function enterLvl1() {
 
         DiamondCount.innerHTML = playerGameInventoryDiamondCount + "<br> Diamonds ";
         carrotCount.innerHTML = playerGameInventoryCarrotCount + "<br> Carrots";
+        message.innerHTML = "You have " + bulletInventory + " bullets";
 
 
         //
@@ -252,7 +256,7 @@ function enterLvl1() {
 
 
         // Wapon logic and inventory bullet count
-        if (playerGameInventoryDiamondCount == 10) {
+        if (playerGameInventoryDiamondCount == 3) {
             bulletInventory = 5;
             playerGameInventoryDiamondCount = 0;
         }
@@ -260,13 +264,15 @@ function enterLvl1() {
         //REMEMBER TO IMPLEMENT BULLET COUNT LOGIC
         //where the bullets are created and determed which way it should travel
         //And also setting the cooldown
-        if (isShooting && !coolDown) {
+        if (isShooting && !coolDown && bulletInventory > 0) {
+
             bulletFired = true;
             coolDown = true;
+            bulletInventory--;
             if (left) {
-                bulletList.push(new bullets(player.xPosition - 20, player.yPosition, 5, 2, "Left"))
+                bulletList.push(new bullets(player.xPosition - 20, player.yPosition, 5, 2, "Left", 10, 10))
             } else {
-                bulletList.push(new bullets(player.xPosition + 20, player.yPosition, 5, 2, "Right"))
+                bulletList.push(new bullets(player.xPosition + 20, player.yPosition, 5, 2, "Right", 10, 10))
             }
 
             if (coolDown) {
@@ -390,21 +396,19 @@ function enterLvl1() {
                     playerDiamonds[i].splice(ThisDiamond, 1);
 
                     playerGameInventoryDiamondCount++;
-                    message.innerHTML = "You have " + bulletInventory + " bullets";
+
                 }
             }
         }
 
 
-        var check = true;
+      
         //Keepin track of the enemies
         for (var i = 0; i < enemies.length; i++) {
 
             for (j = 0; j < enemies[i].length; j++) {
-                console.log(differanse[0][0]);
                 differanse[i][j] = player.xPosition - enemies[i][j].xPosition;
-
-                if (check || enemies[i][j].name === "normal") {
+                if (EnemySet[i].name == "normal") {
 
                     if (startSpeed[i][j] == false) {
                         enemies[i][j].xPosition += -player.xSpd + EnemySet[i].xspd;
@@ -423,25 +427,25 @@ function enterLvl1() {
                     } else if (enemies[i][j].startXposition === enemies[i][j].scopeLeft) {
                         startSpeed[i][j] = true;
                     }
+                } else if (EnemySet[i].name = "zombie") {
+                    differanse += player.xSpd;
+                    
+                    enemies[i][j].xPosition += -player.xSpd
+                    enemies[i][j].yPosition += EnemySet[i].yspd;
 
+                    if (Math.abs(differanse) < 100) {
 
-
-                }
-                else {
-                    enemies[i][j].xPosition += EnemySet.xSpd;
-                }
-
-                if (enemies[i][j].name = "zombie") {
-                    if (Math.abs(differanse) < 00) {
-                        check = false;
                         if (differanse > 0) {
                             EnemySet[i].xSpd = 0.8;
                         }
-                    }
-                    else if (differanse < 0) {
+                    } else if (differanse < 0) {
                         EnemySet[i].xSpd = -0.8;
                     }
+
                 }
+
+
+
 
 
                 for (var k = 0; k < block.length; k++) {
@@ -504,6 +508,7 @@ function enterLvl1() {
 
             }
         }
+
 
         /*
         RENDERING SECTION OF THE GAME

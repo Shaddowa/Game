@@ -40,6 +40,8 @@ class entity {
             }
             return true;
         }
+
+      
 /*
         this.kollisjon2 = function (obj) {
             //lager to vektorer , plusser ob1.width og height, og med ob2.width og heigt får å måe vektoren fra sentrum
@@ -137,12 +139,14 @@ class blocks {
 //BulletsClass
 
 class bullets {
-    constructor(xPosition, yPosition, xSpd, damage, direction) {
+    constructor(xPosition, yPosition, xSpd, damage, direction, width, height) {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         this.xSpd = xSpd;
         this.damage = damage;
         this.direction = direction;
+        this.width = width;
+        this.height = height;
     }
 }
 

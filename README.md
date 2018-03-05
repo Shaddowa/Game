@@ -207,7 +207,10 @@ kollisjon mellom bullet og enemy:
  jeg fjernet den nye kollissjon systemet og brukte den gamle. så når de kolliderer så blir det true, og når det blir true så vil den bruke splice også fjerne en bullet fra arrayen. 
  løsningen var at jeg måtte lage en ny for-løkke som skal gå gjennom bullet-list arrayen. så den vil gå gjennom alle bullettene og sjekke om de har kollidert med enemyen. syntax problem løst. 
 
- samtidig så blir enemy fjernet fra arrayennår den kolliderer med bullet. samme metode for å fjerne, brukte indexof og splice. 
+ samtidig så blir enemy fjernet fra arrayen når den kolliderer med bullet. samme metode for å fjerne, brukte indexof og splice. 
+
+UPDATE Hanna 05.03.2018
+Vi hadde en bug hvor kulene ikke ville bli tegnet om man var på venstre siden av fiendene, men det funket på høyre siden. Dette var fordi vi ikke hadde gitt classen bullets høyde og bredde og da ble ikke kollisjonssystemet vårt brukt riktig. Fiksen var veldig lett.
 
 
 
@@ -223,8 +226,7 @@ viktig
 -fikse kvaliteten til bildene.-anjayan
 -scroller backgrunnen ( x-retning)-begge 
 -legge til flere typer blocker, som på topp, siden, bunnen og i midten. design for blokker man mister liv på og får trampoline blokker.-hanna tar damage block, anjayan tar jump block.
--bullets skal ikke være unlimited, jo mer bullets jo mer du diamanter du har. 
--fikse shooting bug, bullets er usynelig?-
+
 
 mindre viktig:
 -lyd-til sist
