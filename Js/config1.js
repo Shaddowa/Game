@@ -1,12 +1,12 @@
 
 function enterLvl1() {
 
-    var backgroungimg = new Image();
-    backgroungimg.src = "./img/bakgrunn1.png";
-    backgroungimg.style.width = canvasEl.width;
-    backgroungimg.style.height = canvasEl.height;
+    var backgroundimg = new Image();
+    backgroundimg.src = "./img/bakgrunn2.png";
+    backgroundimg.style.width = canvasEl.width;
+    backgroundimg.style.height = canvasEl.height;
 
-    console.log(canvasEl.width, canvasEl.height);
+
     //Setting the inventory of the player to 0
     var playerGameInventoryDiamondCount = 0;
     var playerGameInventoryCarrotCount = 0;
@@ -58,7 +58,7 @@ function enterLvl1() {
     var BlockSet = [
         { antallBlokker: 10, xPos: 100, yPos: 100, damage: 0, jump: 0, speed: 0 },
         { antallBlokker: 2, xPos: 400, yPos: 115, damage: 0, jump: 5, speed: 0 },
-        { antallBlokker: 2, xPos: 480, yPos: 30, damage: 0, jump: 0, speed: 0 }
+        { antallBlokker: 2, xPos: 480, yPos: 30, damage: 1, jump: 0, speed: 0 }
     ]
 
     //The vlock array which hold all the values of the blocks in game and which fetch information from the BlockSet
@@ -70,13 +70,13 @@ function enterLvl1() {
         for (var j = 0; j < BlockSet[i].antallBlokker; j++) {
 
             if (BlockSet[i].damage != 0) {
-                block[i][j] = new blocks("img/iu.jpg", BlockSet[i].xPos + (j * 20), BlockSet[i].yPos, 20, 20);
+                block[i][j] = new blocks("img/DamageBlock.png", BlockSet[i].xPos + (j * 20), BlockSet[i].yPos, 50, 10);
                 block[i][j].damage = BlockSet[i].damage;
             } else if (BlockSet[i].speed != 0) {
                 block[i][j] = new blocks("img/iu.jpg", BlockSet[i].xPos + (j * 20), BlockSet[i].yPos, 20, 20);
                 block[i][j].speed = BlockSet[i].speed;
             } else if (BlockSet[i].jump != 0) {
-                block[i][j] = new blocks("img/iu.jpg", BlockSet[i].xPos + (j * 20), BlockSet[i].yPos, 20, 20);
+                block[i][j] = new blocks("img/jumpBlock.png", BlockSet[i].xPos + (j * 25), BlockSet[i].yPos, 20, 20);
                 block[i][j].jump = BlockSet[i].jump;
             } else {
                 block[i][j] = new blocks("img/iu.jpg", BlockSet[i].xPos + (j * 20), BlockSet[i].yPos, 20, 20);
@@ -123,14 +123,13 @@ function enterLvl1() {
 
     //And the enemies, with a more complex system
     var EnemySet = [
-        { antallEnemies: 2, xPos: 320, yPos: 30, yspd: 0.5, xspd: 0.5, width: 10, height: 12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 20, name: "normal" },
-        { antallEnemies: 1, xPos: 250, yPos: 20, yspd: 0.5, xspd: 0.5, width: 10, height: 12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 20, name: "zombie" },
-        { antallEnemies: 2, xPos: 490, yPos: 35, yspd: 0.5, xspd: 0.5, width: 10, height: 12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 10, name: "normal" },
-        { antallEnemies: 2, xPos: 200, yPos: 15, yspd: 0.5, xspd: 0.5, width: 10, height: 12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 10, name: "normal" }
+        { antallEnemies: 2, xPos: 120, yPos: 30, yspd: 0.5, xspd: 0.5, width: 10, height: 12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 20, name: "zombie" },
+        { antallEnemies: 1, xPos: 250, yPos: 20, yspd: 0.5, xspd: 0.5, width: 10, height: 12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 20, name: "feX" },
+        { antallEnemies: 2, xPos: 320, yPos: 35, yspd: 0.5, xspd: 0.5, width: 10, height: 12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 10, name: "feY" },
+        { antallEnemies: 2, xPos: 480, yPos: 15, yspd: 0.5, xspd: 0.5, width: 10, height: 12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 10, name: "normal" }
     ]
 
     var differanse = new Array();
-
     //Enemy arrays
     var enemies = new Array();
     //Enemies start position array
@@ -165,7 +164,10 @@ function enterLvl1() {
             enemies[i][j].startXposition = enemyStartXValue[i][j];
 
             //For zombie classen
-            differanse[i][j] = player.xPosition - enemies[i][j].xPosition;
+            enemies[i][j].zomRight = enemies[i][j].xPosition + EnemySet[i].range;
+
+            enemies[i][j].zomLeft = enemies[i][j].xPosition - EnemySet[i].range;
+
 
         }
 
@@ -205,6 +207,11 @@ function enterLvl1() {
 
     mainLoop();
     function mainLoop() {
+        if (player.CurrentHp == "2") {
+            contentEl.style.backgroundColor = "hsla(0, 100%, 50%, 0.025)";
+        } else if (player.CurrentHp == "1") {
+            contentEl.style.backgroundColor = "hsla(0, 100%, 50%, 0.05)";
+        }
 
 
 
@@ -327,7 +334,8 @@ function enterLvl1() {
                     if (block[i][j].damage != 0) {
 
                         if (!damageCooldown) {
-                            player.CurrentHp -= 5;
+                            new Audio('audio/ping.mp3').play();
+                            //player.CurrentHp--;
                             damageCooldown = true;
 
 
@@ -402,12 +410,13 @@ function enterLvl1() {
         }
 
 
-      
+
         //Keepin track of the enemies
         for (var i = 0; i < enemies.length; i++) {
 
             for (j = 0; j < enemies[i].length; j++) {
-                differanse[i][j] = player.xPosition - enemies[i][j].xPosition;
+                
+
                 if (EnemySet[i].name == "normal") {
 
                     if (startSpeed[i][j] == false) {
@@ -427,19 +436,89 @@ function enterLvl1() {
                     } else if (enemies[i][j].startXposition === enemies[i][j].scopeLeft) {
                         startSpeed[i][j] = true;
                     }
-                } else if (EnemySet[i].name = "zombie") {
-                    differanse += player.xSpd;
-                    
-                    enemies[i][j].xPosition += -player.xSpd
-                    enemies[i][j].yPosition += EnemySet[i].yspd;
 
-                    if (Math.abs(differanse) < 100) {
+                } else if (EnemySet[i].name == "feX") {
 
-                        if (differanse > 0) {
-                            EnemySet[i].xSpd = 0.8;
+
+                    if (startSpeed[i][j] == false) {
+                        enemies[i][j].xPosition += -player.xSpd + EnemySet[i].xspd;
+                        enemies[i][j].startXposition += -EnemySet[i].xspd;
+                    }
+
+                    if (startSpeed[i][j] == true) {
+                        enemies[i][j].xPosition += -player.xSpd - EnemySet[i].xspd;
+                        enemies[i][j].startXposition += EnemySet[i].xspd;
+                    }
+
+                    if (enemies[i][j].startXposition === enemies[i][j].scopeRight) {
+                        startSpeed[i][j] = false;
+                    } else if (enemies[i][j].startXposition === enemies[i][j].scopeLeft) {
+                        startSpeed[i][j] = true;
+                    }
+                } else if (EnemySet[i].name == "feY") {
+
+                    if (startSpeed[i][j] == false) {
+                        enemies[i][j].xPosition += -player.xSpd;
+                        enemies[i][j].yPosition += EnemySet[i].yspd;
+                        enemies[i][j].startXposition += -EnemySet[i].yspd;
+                    }
+
+                    if (startSpeed[i][j] == true) {
+                        enemies[i][j].xPosition += -player.xSpd;
+                        enemies[i][j].yPosition += -EnemySet[i].yspd;
+                        enemies[i][j].startXposition += EnemySet[i].yspd;
+                    }
+
+                    if (enemies[i][j].startXposition === enemies[i][j].scopeRight) {
+                        startSpeed[i][j] = false;
+                    } else if (enemies[i][j].startXposition === enemies[i][j].scopeLeft) {
+                        startSpeed[i][j] = true;
+                    }
+
+                } else if (EnemySet[i].name == "zombie") {
+                    differanse[i][j] = player.xPosition - enemies[i][j].xPosition;
+
+                    if (differanse[i][j] >= 10 || differanse[i][j] <= -10) {
+                        console.log("følger ikke eter");
+
+                        if (startSpeed[i][j] == false) {
+                            enemies[i][j].zomRight += EnemySet[i].xspd
+                            enemies[i][j].zomLeft += -EnemySet[i].xspd;
+
+                            enemies[i][j].xPosition += -player.xSpd + EnemySet[i].xspd;
+                            enemies[i][j].yPosition += EnemySet[i].yspd;
+                            enemies[i][j].startXposition += -EnemySet[i].xspd;
                         }
-                    } else if (differanse < 0) {
-                        EnemySet[i].xSpd = -0.8;
+
+                        if (startSpeed[i][j] == true) {
+                            enemies[i][j].zomRight += -EnemySet[i].xspd
+                            enemies[i][j].zomLeft += EnemySet[i].xspd;
+                            enemies[i][j].xPosition += -player.xSpd - EnemySet[i].xspd;
+                            enemies[i][j].yPosition += EnemySet[i].yspd;
+                            enemies[i][j].startXposition += EnemySet[i].xspd;
+                        }
+
+                        if (enemies[i][j].startXposition === enemies[i][j].scopeRight) {
+                            startSpeed[i][j] = false;
+                        } else if (enemies[i][j].startXposition === enemies[i][j].scopeLeft) {
+                            startSpeed[i][j] = true;
+                        }
+                    } else if(differanse[i][j] < 10 || differanse[i][j] > -10) {
+                        console.log("følger etter");
+
+                        if (differanse[i][j] > 0) {
+                            enemies[i][j].xPosition += -player.xSpd; + EnemySet[i].xspd;
+                            EnemySet[i].xspd =  0.8;
+                            enemies[i][j].yPosition += EnemySet[i].yspd;
+                        }else if(differanse[i][j] < 0) {
+                            enemies[i][j].xPosition += -player.xSpd; - EnemySet[i].xspd;
+                            EnemySet[i].xspd =  -0.8;
+                            enemies[i][j].yPosition += EnemySet[i].yspd;
+                        }
+
+
+
+
                     }
 
                 }
@@ -461,18 +540,11 @@ function enterLvl1() {
 
 
                 if (player.collitionObject(enemies[i][j])) {
-                    console.log("du rører en fiende");
+                
                     if (!damageCooldown) {
-                        player.CurrentHp--;
+                        //player.CurrentHp--;
                         new Audio('audio/ping.mp3').play();
                         damageCooldown = true;
-
-                        if (player.CurrentHp == "2") {
-                            contentEl.style.backgroundColor = "hsla(0, 100%, 50%, 0.025)";
-                        } else if (player.CurrentHp == "1") {
-                            contentEl.style.backgroundColor = "hsla(0, 100%, 50%, 0.05)";
-                        }
-
 
                         if (damageCooldown) {
 
@@ -518,7 +590,7 @@ function enterLvl1() {
         ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
 
         //backgroundimage
-        ctx.drawImage(backgroungimg, 0, 0, backgroungimg.style.width, backgroungimg.style.height);
+        ctx.drawImage(backgroundimg, 0, 0, backgroundimg.style.width, backgroundimg.style.height);
 
         //rendering the bullets
         for (var i = 0; i < bulletList.length; i++) {

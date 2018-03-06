@@ -1,5 +1,5 @@
 
-canvasEl.style.backgroundImage = "url(img/firstPicture.png)";
+ new Audio('audio/mabinogi.mp3').play();
 canvasEl.style.backgroundRepeat = "no-repeat";
 canvasEl.style.backgroundPosition = "center";
 
@@ -8,22 +8,43 @@ howToButton.addEventListener("click", displayControls);
 
 
 function startSpill() {
-
+    contentEl.style.backgroundImage = "none";
     var object = document.getElementById("startGame");
     object.parentNode.removeChild(object);
     var object2 = document.querySelector(".button");
     object2.parentNode.removeChild(object2);
-    /*Animation cutscene here 
+    
+   
+    showStory();
 
-    */
+    function showStory(){
+        var clicks = 0;
+        window.addEventListener("click", changeSlide);
+    
+        function changeSlide(){
+            if(clicks == 0){
+                contentEl.style.backgroundImage = "url(img/game.png)";
+                clicks++;
+            } else if(clicks == 1){
+                contentEl.style.backgroundImage = "url(img/goal.png)";
+                clicks++;
+            } else if(clicks == 2){
+                contentEl.style.backgroundImage = "none";
+                window.removeEventListener("click", changeSlide);
+                createWorld();
+            }
+        }
+        
 
+    }
+    
     //Where the game logic starts
 
     //Statssection
 
 
 
-    createWorld();
+    
 
 
 }

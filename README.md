@@ -143,7 +143,7 @@ La til noen bilder så spillet vårt ser mer polished ut
 
 //
 
-// 02.03.2018 (Pt 1)  fikse skytefunksjon i spillet så forsvinner ikke skuddet når vi har avfyrt den og enimiesene forsvinner ikke når de blir truffet. har lagt til en to for-løkker som skal gå gjennom enemies array og sjekke om enimies har kollidert med skuddet gjennom en if-test. vis den har skal skudd-objektet og enemy-objektet slettes.
+// 02.03.2018 (Pt 1) Andjayan fikse skytefunksjon i spillet så forsvinner ikke skuddet når vi har avfyrt den og enimiesene forsvinner ikke når de blir truffet. har lagt til en to for-løkker som skal gå gjennom enemies array og sjekke om enimies har kollidert med skuddet gjennom en if-test. vis den har skal skudd-objektet og enemy-objektet slettes.
 
 **bug** når du avfyrer to skudd så kræsjer spillet. i tilegg registerers det ikke kollisjon mellom skudd og enemien. jeg tror årsaken til dette er fordi den originalet kollisjonssystemet sjekker bare kollisjon mellom to objekter fra entity-classen. med vektor kollisjon systemet skal det løse dette.
 
@@ -198,9 +198,6 @@ WorldSelection.js:89
 
  ///
 
-
-
-
  //04.04.2018 PT 4 
 
 kollisjon mellom bullet og enemy:
@@ -212,26 +209,31 @@ kollisjon mellom bullet og enemy:
 UPDATE Hanna 05.03.2018
 Vi hadde en bug hvor kulene ikke ville bli tegnet om man var på venstre siden av fiendene, men det funket på høyre siden. Dette var fordi vi ikke hadde gitt classen bullets høyde og bredde og da ble ikke kollisjonssystemet vårt brukt riktig. Fiksen var veldig lett.
 
+// 05.03,2018 Hanna
 
+Jeg vet at andjayan har mange prøver denne uka, så jeg lot han studere mens vi fikset noen av feilene i spillet vårt og la til nye ting. Jeg la til en damage block, og en jump block. Jeg la også til noen nye enemies, som svever i lufta, x og y retning, samt så fikset jeg zombie funksjonen, så nå følger de etter deg når de har sett deg. Disse zombiene glemmer aldri, så har de sett deg en gang, kan du bare glemme å løpe ifra dem. De vil til og med ta selvmord bare for å spise deg. La også til lyder, som vi skal bytte ut senere og noen bedre visual enhancment. Jeg limita også hvor mange kuler man kan få, og man må ha til nå 3 diamanter for å få 5 skudd. 
 
+Det som gjenstår er egentlig alt som har å erstatte alle bildene/lydene, balanser ting og plassere alle de forskjellige objektene rundt omkring. Vi er litt usikre på om vi trenger en boss, vi får se hva vi har tid til. Det er lurt og kanskje legge til kollisjon slik at man ikke kan gå gjennom objektet fra siden, men det er ikke kritisk at vi har det. 
 
+Skal legge til en en storyline, så man har litt peiling på hva som skjer
+
+Gjort, lagde den i powerpoint.
 
 //
 
 //check list:
 viktig
 -lage baner/nivåer.-anjayan
--få sprite til å funke -hannah
+-få sprite til å funke -anjayan
 -legg til pistolen.- anjayan
 -fikse kvaliteten til bildene.-anjayan
--scroller backgrunnen ( x-retning)-begge 
--legge til flere typer blocker, som på topp, siden, bunnen og i midten. design for blokker man mister liv på og får trampoline blokker.-hanna tar damage block, anjayan tar jump block.
+-scroller backgrunnen (x-retning)-anjayan 
+-legge til flere typer blocker, som på topp, siden, bunnen og i midten. 
 
 
 mindre viktig:
--lyd-til sist
--fikse zombie enemy, altså differanse-anjayan
--kollisjon på siden av hinder blocker.-anjayan
+-lyd-til sist -hanna
+-kollisjon på siden av hinder blocker.-anjayan //tror egentlig ikke vi trenger dette
 -legge til boss-nivå, med boss. -til sist
--legge til storeline.-hannah
+
 

@@ -24,6 +24,9 @@ html body{
     height: 100%;
     width: 100%;
     flex-direction: column;
+    background-image: url(../img/firstPicture.png);
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 
