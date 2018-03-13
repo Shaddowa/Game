@@ -38,7 +38,7 @@ function enterLvl3() {
     var playerXPosition = 120;
     var playerYPosition = 90;
     var playerWidth = 40;
-    var playerHeight = 79;
+    var playerHeight = 150;
     var playerYspd = 80;
     var playerGravity = 10;
     var playerWeight = 0.05;
@@ -47,8 +47,38 @@ function enterLvl3() {
 
     //<
 
-    //Making the player
-    var player = new entity("img/mainplayertest.png", playerXPosition, playerYPosition, playerWidth, playerHeight, playerYspd, playerGravity, playerWeight, playerHp, playerDamage, playerName)
+    //Making the player//the position where the frame will be drawn
+    var x = 0;
+    var y = 0;
+
+    var srcX;
+    var srcY;
+
+    var sheetWidth = 333;
+    var sheetHeight = 150;
+
+    var cols = 5;
+    var rows = 1;
+
+    var width = sheetWidth / cols;
+    var height = sheetHeight / rows;
+
+    var currentFrame = 0;
+
+    var characterSprite;
+
+    var player = new entity(characterSprite, playerXPosition, playerYPosition, playerWidth, playerHeight, playerYspd, playerGravity, playerWeight, playerHp, playerDamage, playerName)
+    player.sprite.src = "./img/spritesheetplayer.png";
+
+    function updateFrame() {
+
+        currentFrame = ++currentFrame % cols;
+        srcX = currentFrame * width;
+        srcY = 0;
+
+    }
+
+    updateFrame();
 
     //Block information
     var BlockSet = [
@@ -93,7 +123,7 @@ function enterLvl3() {
                 block[i][j].speed = BlockSet[i].speed;
             }
             else {
-                block[i][j] = new blocks("img/vinterblock.png", BlockSet[i].xPos + (j * 170), BlockSet[i].yPos, 170, 43);
+                block[i][j] = new blocks("img/vinterblock.png", BlockSet[i].xPos + (j * 170), BlockSet[i].yPos, 170, 1);
 
             }
         }
@@ -154,12 +184,12 @@ function enterLvl3() {
 
         { antallEnemies: 1, xPos: 650, yPos: 310, yspd: 1, xspd: 0.5, width: 40, height: 59, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 60, name: "feY" },
         { antallEnemies: 1, xPos: 650, yPos: 120, yspd: 0.5, xspd: 2, width: 40, height: 59, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 100, name: "feX" },
-        
+
         { antallEnemies: 1, xPos: 2300, yPos: 350, yspd: 0.5, xspd: 1, width: 40, height: 59, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 100, name: "feX" },
         { antallEnemies: 1, xPos: 2300, yPos: 500, yspd: 0.5, xspd: 1, width: 40, height: 59, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 100, name: "feX" },
 
         { antallEnemies: 1, xPos: 2200, yPos: 700, yspd: 2, xspd: 0.5, width: 40, height: 59, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 100, name: "feY" },
-        
+
 
         { antallEnemies: 0, xPos: 700, yPos: 510, yspd: 0.5, xspd: 1.5, width: 40, height: 59, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 150, name: "normal" },
         { antallEnemies: 0, xPos: 1000, yPos: 510, yspd: 0.5, xspd: 1.5, width: 40, height: 59, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 150, name: "normal" },
@@ -256,6 +286,8 @@ function enterLvl3() {
     }
     //
 
+    var gun = new entity("img/doublegun.png", player.xPosition + 40.5, player.yPosition + 80.5, 0, 0, "left", 45, 25);
+
     mainLoop();
     function mainLoop() {
         if (player.CurrentHp == "2") {
@@ -278,15 +310,35 @@ function enterLvl3() {
         finnishLine.xPosition += -player.xSpd;
 
         //Player moving logic
+        //Player moving logic
         if (left) {
+            gun.xPosition = player.xPosition - 40.5;
             player.xSpd = -9;
+            player.sprite.src = "./img/spritesheetplayerbackward.png";
+            gun.sprite.src = "./img/doublegunLeft.png";
+            updateFrame();
         }
         if (right) {
             player.xSpd = 9;
+            gun.sprite.src = "./img/doublegun.png";
+            player.sprite.src = "./img/spritesheetplayer.png";
+            gun.xPosition = player.xPosition + 40.5;
+
+
+            updateFrame();
+
+
         }
 
         if (!left && !right) {
             player.xSpd = 0;
+            gun.xPosition = player.xPosition + 40.5;
+            gun.sprite.src = "./img/doublegun.png";
+            player.sprite.src = "./img/spritesheetplayer.png";
+
+            //clearInterval(drawPlayer);
+
+
         }
 
         //Player jumping logic
@@ -299,7 +351,7 @@ function enterLvl3() {
             jump = false;
         }
 
-        if (hasRealised && !onGround) {
+        if (hasRealised && !onGround){
             player.ySpd += gravity;
         }
 
@@ -313,7 +365,7 @@ function enterLvl3() {
         }
 
         // Wapon logic and inventory bullet count
-        var gun = new entity("img/doublegun.png", player.xPosition + 22.5, player.yPosition + 32.5, 0, 0, "left", 45, 25);
+        
 
         if (playerGameInventoryDiamondCount == 1) {
             bulletInventory = 3;
@@ -330,7 +382,7 @@ function enterLvl3() {
             bulletInventory--;
             new Audio('audio/gun.mp3').play();
             if (left) {
-                
+
                 bulletList.push(new bullets("img/bulletleft.png", player.xPosition - 12.5, player.yPosition + 32.5, 10, 5, "Left", 7, 7))
                 bulletList.push(new bullets("img/bulletleft.png", player.xPosition - 12.5, player.yPosition + 42.5, 10, 5, "Left", 7, 7))
             } else {
@@ -418,6 +470,8 @@ function enterLvl3() {
 
                     }
 
+                } else {
+                    gun.yPosition = player.yPosition + 50;
                 }
 
             }
@@ -549,16 +603,16 @@ function enterLvl3() {
                             startSpeed[i][j] = true;
                         }
                     } else if (differanse[i][j] < 15 || differanse[i][j] > -15) {
-                        console.log(differanse[0][0]);
+                        
 
                         if (differanse[i][j] > 0) {
-                            console.log("positiv");
+                            
                             EnemySet[i].xspd = 2;
                             enemies[i][j].xPosition += -player.xSpd; + EnemySet[i].xspd;
 
                             enemies[i][j].yPosition += EnemySet[i].yspd;
                         } else if (differanse[i][j] < 0) {
-                            console.log("negativ");
+                            
                             EnemySet[i].xspd = -2;
                             enemies[i][j].xPosition += -player.xSpd; - EnemySet[i].xspd;
                             enemies[i][j].yPosition += EnemySet[i].yspd;
@@ -586,7 +640,7 @@ function enterLvl3() {
                 if (player.collitionObject(enemies[i][j])) {
 
                     if (!damageCooldown) {
-                        player.CurrentHp --;
+                        player.CurrentHp--;
                         new Audio('audio/ping.mp3').play();
                         damageCooldown = true;
 
@@ -664,7 +718,7 @@ function enterLvl3() {
         ctx.drawImage(gun.sprite, gun.xPosition, gun.yPosition);
 
         //Lastly rendering the player and the finnish line
-        ctx.drawImage(player.sprite, player.xPosition, player.yPosition);
+        ctx.drawImage(player.sprite, srcX, srcY, width, height, player.xPosition, player.yPosition, width, height);
         ctx.drawImage(finnishLine.sprite, finnishLine.xPosition, finnishLine.yPosition);
 
         //If the player collides with the finnishLine

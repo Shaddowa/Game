@@ -42,9 +42,9 @@ function enterLvl2() {
     //Setings for the player
     var playerName;
     var playerXPosition = canvasEl.width / 5;
-    var playerYPosition = canvasEl.height / 2 + 30;
+    var playerYPosition = 300;
     var playerWidth = 40;
-    var playerHeight = 79;
+    var playerHeight = 150;
     var playerYspd = 80;
     var playerGravity = 10;
     var playerWeight = 0.05;
@@ -54,7 +54,38 @@ function enterLvl2() {
     //<
 
     //Making the player
-    var player = new entity("img/mainplayertest.png", playerXPosition, playerYPosition, playerWidth, playerHeight, playerYspd, playerGravity, playerWeight, playerHp, playerDamage, playerName)
+    //the position where the frame will be drawn
+    var x = 0;
+    var y = 0;
+
+    var srcX;
+    var srcY;
+
+    var sheetWidth = 333;
+    var sheetHeight = 150;
+
+    var cols = 5;
+    var rows = 1;
+
+    var width = sheetWidth / cols;
+    var height = sheetHeight / rows;
+
+    var currentFrame = 0;
+
+    var characterSprite;
+
+    var player = new entity(characterSprite, playerXPosition, playerYPosition, playerWidth, playerHeight, playerYspd, playerGravity, playerWeight, playerHp, playerDamage, playerName)
+    player.sprite.src = "./img/spritesheetplayer.png";
+
+    function updateFrame() {
+
+        currentFrame = ++currentFrame % cols;
+        srcX = currentFrame * width;
+        srcY = 0;
+
+    }
+
+    updateFrame();
 
     //Block information
     var BlockSet = [
@@ -72,7 +103,7 @@ function enterLvl2() {
         { antallBlokker: 0, xPos: 3700, yPos: 446, damage: 0, jump: 0, speed: 0, name: "vanlig" },
         { antallBlokker: 0, xPos: 3800, yPos: 372, damage: 0, jump: 0, speed: 0, name: "vanlig" },
         { antallBlokker: 0, xPos: 3900, yPos: 298, damage: 0, jump: 0, speed: 0, name: "vanlig" },
-        {}
+        
 
         //{ antallBlokker: 2, xPos:yPos: 150, damage: 1, jump: 0, speed: 0 }
     ]
@@ -255,6 +286,8 @@ function enterLvl2() {
     }
     //
 
+    var gun = new entity("img/gun (2).png", player.xPosition + 40.5, player.yPosition + 80.5, 0, 0, "left", 45, 25);
+
 
     mainLoop();
     function mainLoop() {
@@ -282,14 +315,32 @@ function enterLvl2() {
 
         //Player moving logic
         if (left) {
+            gun.xPosition = player.xPosition - 40.5;
             player.xSpd = -9;
+            player.sprite.src = "./img/spritesheetplayerbackward.png";
+            gun.sprite.src = "./img/gun (2)Left.png";
+            updateFrame();
         }
         if (right) {
             player.xSpd = 9;
+            player.sprite.src = "./img/spritesheetplayer.png";
+            gun.xPosition = player.xPosition + 40.5;
+            
+
+            updateFrame();
+
+
         }
 
         if (!left && !right) {
             player.xSpd = 0;
+            gun.sprite.src = "./img/gun (2).png";
+            player.sprite.src = "./img/spritesheetplayer.png";
+            gun.xPosition = player.xPosition + 40.5;
+            
+            //clearInterval(drawPlayer);
+
+
         }
 
         //Player jumping logic
@@ -302,7 +353,7 @@ function enterLvl2() {
             jump = false;
         }
 
-        if (hasRealised && !onGround) {
+        if (hasRealised && !onGround){
             player.ySpd += gravity;
         }
 
@@ -318,7 +369,7 @@ function enterLvl2() {
 
 
         // Wapon logic and inventory bullet count
-        var gun = new entity("img/gun (2).png", player.xPosition + 12.5, player.yPosition + 32.5, 0, 0, "left", 45, 25);
+        
 
         if (playerGameInventoryDiamondCount == 1) {
             bulletInventory = 5;
@@ -336,9 +387,9 @@ function enterLvl2() {
             new Audio('audio/gun.mp3').play();
             if (left) {
                 //   gun.xPosition - 20 xPosition + 20
-                bulletList.push(new bullets("img/bulletleft.png", player.xPosition - 12.5, player.yPosition + 32.5, 10, 5, "Left", 7, 7))
+                bulletList.push(new bullets("img/bulletleft.png", player.xPosition - 50.5, player.yPosition + 80.5, 10, 5, "Left", 7, 7))
             } else {
-                bulletList.push(new bullets("img/bulletright.png", player.xPosition + 12.5, player.yPosition + 32.5, 10, 5, "Right", 7, 7))
+                bulletList.push(new bullets("img/bulletright.png", player.xPosition + 50.5, player.yPosition + 80.5, 10, 5, "Right", 7, 7))
             }
 
             if (coolDown) {
@@ -424,6 +475,8 @@ function enterLvl2() {
 
                     }
 
+                } else {
+                    gun.yPosition = player.yPosition + 50;
                 }
 
             }
@@ -698,7 +751,7 @@ function enterLvl2() {
         ctx.drawImage(gun.sprite, gun.xPosition, gun.yPosition);
 
         //Lastly rendering the player and the finnish line
-        ctx.drawImage(player.sprite, player.xPosition, player.yPosition);
+        ctx.drawImage(player.sprite, srcX, srcY, width, height, player.xPosition, player.yPosition, width, height);
         ctx.drawImage(finnishLine.sprite, finnishLine.xPosition, finnishLine.yPosition);
 
 

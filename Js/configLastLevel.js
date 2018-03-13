@@ -45,7 +45,7 @@ function lastLevel() {
     var playerXPosition = canvasEl.width / 5;
     var playerYPosition = canvasEl.height / 2 + 30;
     var playerWidth = 40;
-    var playerHeight = 79;
+    var playerHeight = 150;
     var playerYspd = 80;
     var playerGravity = 10;
     var playerWeight = 0.05;
@@ -54,8 +54,38 @@ function lastLevel() {
 
     //<
 
-    //Making the player
-    var player = new entity("img/mainplayertest.png", playerXPosition, playerYPosition, playerWidth, playerHeight, playerYspd, playerGravity, playerWeight, playerHp, playerDamage, playerName)
+    //Making the player//the position where the frame will be drawn
+    var x = 0;
+    var y = 0;
+
+    var srcX;
+    var srcY;
+
+    var sheetWidth = 333;
+    var sheetHeight = 150;
+
+    var cols = 5;
+    var rows = 1;
+
+    var width = sheetWidth / cols;
+    var height = sheetHeight / rows;
+
+    var currentFrame = 0;
+
+    var characterSprite;
+
+    var player = new entity(characterSprite, playerXPosition, playerYPosition, playerWidth, playerHeight, playerYspd, playerGravity, playerWeight, playerHp, playerDamage, playerName)
+    player.sprite.src = "./img/spritesheetplayer.png";
+
+    function updateFrame() {
+
+        currentFrame = ++currentFrame % cols;
+        srcX = currentFrame * width;
+        srcY = 0;
+
+    }
+
+    updateFrame();
 
     //Block information
     var BlockSet = [
@@ -302,14 +332,29 @@ function lastLevel() {
 
         //Player moving logic
         if (left) {
+           
             player.xSpd = -9;
+            player.sprite.src = "./img/spritesheetplayerbackward.png";
+            updateFrame();
         }
         if (right) {
             player.xSpd = 9;
+            player.sprite.src = "./img/spritesheetplayer.png";
+            
+
+
+            updateFrame();
+
+
         }
 
         if (!left && !right) {
             player.xSpd = 0;
+            player.sprite.src = "./img/spritesheetplayer.png";
+
+            //clearInterval(drawPlayer);
+
+
         }
 
         //Player jumping logic
@@ -721,10 +766,10 @@ function lastLevel() {
 
         // DRAW GUN
 
-        ctx.drawImage(gun.sprite, gun.xPosition, gun.yPosition);
+        
 
         //Lastly rendering the player and the finnish line
-        ctx.drawImage(player.sprite, player.xPosition, player.yPosition);
+        ctx.drawImage(player.sprite, srcX, srcY, width, height, player.xPosition, player.yPosition, width, height);
         //ctx.drawImage(finnishLine.sprite, finnishLine.xPosition, finnishLine.yPosition);
 
 

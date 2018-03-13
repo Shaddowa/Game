@@ -10,7 +10,7 @@ function createWorld() {
     stats.id = "stats";
     stats.className = "text";
     stats.style.width = "100%";
-    stats.innerHTML = " You currently have " + playerTotalCarrotCount + " / " + 10 + " Carrots";
+    stats.innerHTML = " You currently have " + playerTotalCarrotCount + " / " + 9 + " Carrots";
     contentEl.appendChild(stats);
 
     //World section
@@ -125,7 +125,7 @@ function loadWorld(e) {
         enterLvl2();
 
 
-    } else if (curretTarget.id === "world3" && playerTotalCarrotCount == 10){
+    } else if (curretTarget.id === "world3" && playerTotalCarrotCount == 9){
         mainMusic.pause();
         new Audio('audio/ping.mp3').play();
     

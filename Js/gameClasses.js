@@ -41,45 +41,7 @@ class entity {
             return true;
         }
 
-        var canWidth = 1366;
-        var canHeight = 768;
     
-        //the position where the frame will be drawn
-        var x = 0;
-        var y= 0;
-    
-        var srcX;
-        var srcY;
-    
-        var sheetWidth = 333;
-        var sheetHeight = 150;
-    
-        var cols = 5;
-        var rows = 1;
-    
-        var width = sheetWidth / cols;
-        var height = sheetHeight / rows;
-    
-        var currentFrame = 0;
-    
-        
-    
-        function updateFrame() {
-            currentFrame = ++ currentFrame % cols;
-            srcX = currentFrame * width;
-            srcY = 0;
-    
-            ctx.clearRect(x,y,width,height);
-    
-        }
-    
-    
-        this.drawPlayer = function(obj){
-            updateFrame();
-            ctx.drawImage(obj.sprite, srcX, srcY, width, height, x, y, width, height);
-            
-        }
-
 
         /*
                 this.kollisjon2 = function (obj) {
