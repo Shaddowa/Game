@@ -1,5 +1,8 @@
+var mainMusic = new Audio('audio/firstscreen.mp3');
+mainMusic.loop = true;
+mainMusic.volume = 0.3;
+mainMusic.play();
 
- new Audio('audio/mabinogi.mp3').play();
 canvasEl.style.backgroundRepeat = "no-repeat";
 canvasEl.style.backgroundPosition = "center";
 
@@ -8,6 +11,7 @@ howToButton.addEventListener("click", displayControls);
 
 
 function startSpill() {
+    new Audio('audio/ping.mp3').play();
     contentEl.style.backgroundImage = "none";
     var object = document.getElementById("startGame");
     object.parentNode.removeChild(object);
@@ -23,12 +27,16 @@ function startSpill() {
     
         function changeSlide(){
             if(clicks == 0){
+                new Audio('audio/ping.mp3').play();
                 contentEl.style.backgroundImage = "url(img/game.png)";
                 clicks++;
             } else if(clicks == 1){
+                new Audio('audio/ping.mp3').play();
                 contentEl.style.backgroundImage = "url(img/goal.png)";
                 clicks++;
+                
             } else if(clicks == 2){
+                new Audio('audio/ping.mp3').play();
                 contentEl.style.backgroundImage = "none";
                 window.removeEventListener("click", changeSlide);
                 createWorld();
@@ -50,6 +58,7 @@ function startSpill() {
 }
 
 function displayControls() {
+    new Audio('audio/ping.mp3').play();
 
     var object = document.getElementById("startGame");
     var object2 = document.querySelector(".button");
@@ -126,7 +135,8 @@ function displayControls() {
 
     //
 
-    function goBack() {
+    function goBack(){
+        
         location.reload();
     }
 

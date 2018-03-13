@@ -219,21 +219,67 @@ Skal legge til en en storyline, så man har litt peiling på hva som skjer
 
 Gjort, lagde den i powerpoint.
 
+
+
+
+// 
+glitch:
+våpenene fungerer ikke etter jeg har lagt til sprite for bulleten. 
+zombienen vil ikke følge etter deg på starten. den vil stoppe først. også vil den bare gå til den faller av banen. den vil følge etter deg etter en stund.
+husk å legge til jump block og damage block. 
+husk å legge til diamanter, gulrøtter og målflagg. 
+zombiene virker fint. men problemet er at nor jeg gj;r smo endringer i zombie koden so vil zombiene bevege seg ulogisk i forhold til koden. et eksempel vil vare o bare endre farten dens. da vil en vanlig bug skje hvor vis du er for narme zombien so vil den lope unna deg. en annen bug jeg motte po var skuddene. alle bulletsene har sin objekt, hvor en av egenskapene er deres sprite. problemet er nor jeg skal rendere bulletsene ved bruk av drawimage funskjonen i canvas, so vil ikke den tegne opp spriten til bulleten men vil forsatt eksistere og omgo med den andre elementene i spillet. en bug. vopene fungere fint no, borsett fra sprite. 
 //
 
-//check list:
-viktig
--lage baner/nivåer.-anjayan
--få sprite til å funke -anjayan
--legg til pistolen.- anjayan
--fikse kvaliteten til bildene.-anjayan
--scroller backgrunnen (x-retning)-anjayan 
--legge til flere typer blocker, som på topp, siden, bunnen og i midten. 
+
+// anajyan planen er legge til nivå 2 og nivå 3. fikse zoombienee og pistolen og skuddene. også kanksje legge feer som beveger seg etter funksjoner.
+zombiene pleier ikke ofte å følge etter deg og noen ganger stopper de vis du står ved siden av dem. justeringer av variabler må være kilden til problemet. zombiene virker delvis. hver 2 gang vi spiller på banen så virker den, men i mellom så vil løpe vekk fra deg.
+jeg gjort alle bildene så langt til transparent.
+ANNEN BUG: KAN IKKE AVFYRE FOR MANGE SKUDD OM GANGEN, ELLERS FRYSER SPILLET FORDI DEN KLARER IKKE Å REGISTRERE KOLLISJON PÅ ALLE OMRÅDER. 
 
 
-mindre viktig:
--lyd-til sist -hanna
--kollisjon på siden av hinder blocker.-anjayan //tror egentlig ikke vi trenger dette
--legge til boss-nivå, med boss. -til sist
+har lagt feer som følger beveger seg som sinus funksjoner eller polynomfunksjoner hvor graden er ganske høy. dette sikkert tilfredstiller Hannas sadistiske ønsker om tortur baner.  
+
+jeg tror jeg har fikset scope problemene til alle enemiesene. angri hvilket range en enemy kan bevege seg helt til må svinge. istedenfor for sjekke om x.posisjonen til alle enemiene har gått over range, så vil den sjekke noe annet. derfor vil ikke Scope virke helt på alle enemy. dette vil sikkert løse problemet til de pasifistiske selvmords zombiene. samtidig endret jeg også et par true og false kondisjonene, sånn at gir mening med scope funksjonen. jeg tenker at det selv også er en kilde til problemet. 
 
 
+// 10.03.2018 
+anjayan planen er legge til nivå 2 og nivå 3. fikse zoombienee og pistolen og skuddene. også kanksje legge feer som beveger seg etter funksjoner.
+zombiene pleier ikke ofte å følge etter deg og noen ganger stopper de vis du står ved siden av dem. justeringer av variabler må være kilden til problemet. zombiene virker delvis. hver 2 gang vi spiller på banen så virker den, men i mellom så vil løpe vekk fra deg.
+jeg gjort alle bildene så langt til transparent.
+**bug** en bug dukket opp imens jeg testet banen. når du avfyrer to skudd, og skuddene treffer to enemies smatidig, så kraæsjer spillet. dette kan være en problem når vi kanskje skal legge til en power-up som er dobbelgun. i en stund nå har jeg prøvd å legge til bildene til selve skuddet, men det oppstår en problem og selv bildet vil ikke tegnes sånn at skuddene er usynelige. alt ser riktig ut, selve bilde i drawImage taggen er riktig og det oppstår ingen error. alt er i riktig størrelse også. etter en par timer så endrer skuddene tilbake, sånn at de blir tegnet gjennom filrect i canvas. 
+ikke mye ble oppnådd i dag. fikk bare fikset nivå 2 og  men de store bugsene med zombiene og skudd har neppet klart  å fikse. 
+
+//// 11.03.2018 
+anjayan- planen for dagen er å lage nivå 3 også legge til feer som beveger etter sinus-funkjsoner
+
+har lagt feer som følger beveger seg som sinus funksjoner eller polynomfunksjoner hvor graden er ganske høy. disse funksjonerer skal to argumenter, den ene er xposisjonen og den andre er en faktor du skal gange med konstantleddet til funksjonen, og derfra så bestemmer du yposisjonen til feen. 
+
+en annen bug oppsto under å legge til disse nye enemyene. hver gang selve spilleren holder inn høyre eller venstre pilstast så øker farten til selve feene. dette skal ikke stemme. i tilegg så vil enemyene bevege seg i forhold med spilleren så den bryter med hvor den kan bevege seg i en retning. jeg har fjernet verdien player.xspd fra enemys sin bevegelse sånn at de skal ikke bevege seg forte, og det gjør det ikke mer. men enemyene forsatt beveger seg i forhold til spilleren. 
+
+jeg tror jeg har fikset scope problemene til alle enemiesene. angri hvilket range en enemy kan bevege seg helt til må svinge. istedenfor for sjekke om x.posisjonen til alle enemiene har gått over range, så vil den sjekke noe annet. derfor vil ikke Scope virke helt på alle enemy. dette vil sikkert løse problemet til de pasifistiske selvmords zombiene. samtidig endret jeg også et par true og false kondisjonene, sånn at gir mening med scope funksjonen. jeg tenker at det selv også er en kilde til problemet.
+
+jeg har nå lagt til tre nye feer. den ene feen beveger seg som en sinus funkjson. den andre beveger seg so msinsu funkjson men vertikal, mens den siste beveg seg en del også forsvinner den en liten stund også kommer tilbake. hvorfor forsvinner den tenker du ? svaret feer er jo magiske. 
+
+
+13.03.2018
+
+anjayan fikse feer, balansere baner og fikse zombie bug.
+
+etter par timer med exprimentering av justering med mekanikken til sinus feene så finner jeg ingen løsning. jeg tenker det er best å legge dem til siden, så spillet ser komplett ut før spilldagen, også kan legge mer fokus på zombienen.
+
+
+///  
+
+//12.032018 Hanna
+
+Rettet opp i mange av feilene vi hadde. Nå krasjer spillet ikke, med mindre noe helt ultra sjeldent skjer, som er lite sannsynlig og jeg la til skudd bildet. Jeg la også til en dobbel pisto i siste bane. Jeg fikset feX sin scope, og nå følger den patrulje veien sin og kan ikke gå lenger en rangen sier. Prøvde å tukle litt med zombiene, men de er fortsatt litt rare, men de er ikke veldig viktig for spillet generelt. Fikset også scopet til fe sinus x ellerno, men en bug er at den går raskere om man holder noen av knappene nede, så kanskje dette kan være boss levelet, at fiendene er uforutsigbare. Nå skal jeg sketche banene, legge til lyd, og mer feilrettinger.
+
+Jeg la til musikk, og fikset credits page.
+Fikset også lastLevel sin gullerøtter, nå har vi uendelig mange gulerøtter
+
+
+// 
+
+//Anjayan og Hanna den siste dagen: 
+Vi fulførte spillet, uten sprite sheet tho... Vi kaller det dark souls of platformers

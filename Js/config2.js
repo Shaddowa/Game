@@ -1,7 +1,16 @@
-
 function enterLvl2() {
+    var mainMusic = new Audio('audio/sommerbanen.mp3');
+    mainMusic.loop = true;
+    mainMusic.volume = 0.2;
+    mainMusic.play();
+
+    var backgroundimg = new Image();
+    backgroundimg.src = "./img/bakgrunn2.png";
+
+
+
     //Setting the inventory of the player to 0
-    var playerGameInventoryCoinCount = 0;
+    var playerGameInventoryDiamondCount = 0;
     var playerGameInventoryCarrotCount = 0;
 
 
@@ -14,8 +23,8 @@ function enterLvl2() {
     gameStats.style.flexDirection = "row";
     gameStats.style.flexWrap = "wrap";
     gameStats.style.justifyContent = "space-around";
-    var coinCount = document.createElement("p");
-    coinCount.className = "stats";
+    var DiamondCount = document.createElement("p");
+    DiamondCount.className = "stats";
     var carrotCount = document.createElement("p");
     carrotCount.className = "stats";
     var message = document.createElement("p");
@@ -23,7 +32,7 @@ function enterLvl2() {
 
 
     //Appending all the stats
-    gameStats.appendChild(coinCount);
+    gameStats.appendChild(DiamondCount);
     gameStats.appendChild(message);
     gameStats.appendChild(carrotCount);
     contentEl.appendChild(gameStats);
@@ -32,27 +41,42 @@ function enterLvl2() {
 
     //Setings for the player
     var playerName;
-    var playerXPosition = canvasEl.width / 2;
-    var playerYPosition = canvasEl.height / 2;
-    var playerWidth = 10;
-    var playerHeight = 12;
-    var playerYspd = 2;
-    var playerGravity = 20;
+    var playerXPosition = canvasEl.width / 5;
+    var playerYPosition = canvasEl.height / 2 + 30;
+    var playerWidth = 40;
+    var playerHeight = 79;
+    var playerYspd = 80;
+    var playerGravity = 10;
     var playerWeight = 0.05;
     var playerHp = 3;
     var playerDamage = 5;
 
-    //
+    //<
 
     //Making the player
-    var player = new entity("img/Small1.png", playerXPosition, playerYPosition, playerWidth, playerHeight, playerYspd, playerGravity, playerWeight, playerHp, playerDamage, playerName)
+    var player = new entity("img/mainplayertest.png", playerXPosition, playerYPosition, playerWidth, playerHeight, playerYspd, playerGravity, playerWeight, playerHp, playerDamage, playerName)
 
     //Block information
     var BlockSet = [
-        { antallBlokker: 10, xPos: 100, yPos: 100, damage: 0, jump: 0, speed: 0 },
-        { antallBlokker: 2, xPos: 400, yPos: 115, damage: 0, jump: 5, speed: 0 },
-        { antallBlokker: 2, xPos: 480, yPos: 30, damage: 0, jump: 0, speed: 0 }
+        { antallBlokker: 2, xPos: 0, yPos: 520, damage: 0, jump: 0, speed: 0, name: "vanlig" },
+        { antallBlokker: 40, xPos: 10, yPos: 590, damage: 0, jump: 12, speed: 0, name: "jump" },
+        { antallBlokker: 1, xPos: 6800, yPos: 520, damage: 0, jump: 0, speed: 0, name: "vanlig" },
+        { antallBlokker: 0, xPos: 1500, yPos: 520, damage: 0, jump: 0, speed: 0, name: "vanlig" },
+        { antallBlokker: 0, xPos: 2700, yPos: 520, damage: 0, jump: 0, speed: 0, name: "vanlig" },
+        { antallBlokker: 0, xPos: 0, yPos: 520, damage: 0, jump: 8.5, speed: 0, name: "jump" },
+        { antallBlokker: 0, xPos: 480, yPos: 170, damage: 1, jump: 0, speed: 0, name: "skade" },
+        { antallBlokker: 0, xPos: 1100, yPos: 320, damage: 0, jump: 0, speed: 0, name: "i luften" },
+        { antallBlokker: 0, xPos: 1300, yPos: 200, damage: 0, jump: 0, speed: 0, name: "i luften" },
+        { antallBlokker: 0, xPos: 2900, yPos: 320, damage: 0, jump: 0, speed: 0, name: "i luften" },
+
+        { antallBlokker: 0, xPos: 3700, yPos: 446, damage: 0, jump: 0, speed: 0, name: "vanlig" },
+        { antallBlokker: 0, xPos: 3800, yPos: 372, damage: 0, jump: 0, speed: 0, name: "vanlig" },
+        { antallBlokker: 0, xPos: 3900, yPos: 298, damage: 0, jump: 0, speed: 0, name: "vanlig" },
+        {}
+
+        //{ antallBlokker: 2, xPos:yPos: 150, damage: 1, jump: 0, speed: 0 }
     ]
+    
 
     //The vlock array which hold all the values of the blocks in game and which fetch information from the BlockSet
     var block = new Array();
@@ -63,45 +87,56 @@ function enterLvl2() {
         for (var j = 0; j < BlockSet[i].antallBlokker; j++) {
 
             if (BlockSet[i].damage != 0) {
-                block[i][j] = new blocks("img/iu.jpg", BlockSet[i].xPos + (j * 20), BlockSet[i].yPos, 20, 20);
+                block[i][j] = new blocks("img/DamageBlock.png", BlockSet[i].xPos + (j * 80), BlockSet[i].yPos, 50, 10);
                 block[i][j].damage = BlockSet[i].damage;
             } else if (BlockSet[i].speed != 0) {
-                block[i][j] = new blocks("img/iu.jpg", BlockSet[i].xPos + (j * 20), BlockSet[i].yPos, 20, 20);
+                block[i][j] = new blocks("img/platformned.png", BlockSet[i].xPos + (j * 170), BlockSet[i].yPos, 170, 34);
                 block[i][j].speed = BlockSet[i].speed;
             } else if (BlockSet[i].jump != 0) {
-                block[i][j] = new blocks("img/iu.jpg", BlockSet[i].xPos + (j * 20), BlockSet[i].yPos, 20, 20);
+                block[i][j] = new blocks("img/jumpBlock.png", BlockSet[i].xPos + (j * 170), BlockSet[i].yPos, 170, 34);
                 block[i][j].jump = BlockSet[i].jump;
-            } else {
-                block[i][j] = new blocks("img/iu.jpg", BlockSet[i].xPos + (j * 20), BlockSet[i].yPos, 20, 20);
+            }
+            else if (BlockSet[i].name === "i luften") {
+                block[i][j] = new blocks("img/platformtre.png", BlockSet[i].xPos + (j * 80), BlockSet[i].yPos, 100, 24);
+                block[i][j].speed = BlockSet[i].speed;
+            }
+            else {
+                block[i][j] = new blocks("img/platformned.png", BlockSet[i].xPos + (j * 170), BlockSet[i].yPos, 170, 34);
 
             }
         }
     }
 
 
-    //Doing the same with the coins as the ground
-    var CoinSet = [
-        { antallCoins: 20, xPos: 200, yPos: 80 },
-        { antallCoins: 5, xPos: 400, yPos: 55 },
-        { antallCoins: 2, xPos: 500, yPos: 90 }
+    //Doing the same with the Diamonds as the ground
+    var DiamondSet = [
+        { antallDiamonds: 1, xPos: 520, yPos: 160 },
+        { antallDiamonds: 0, xPos: 600, yPos: 350 },
+        { antallDiamonds: 0, xPos: 3500, yPos: 200 }
     ]
 
 
-    var playerCoins = new Array();
+    var playerDiamonds = new Array();
 
 
-    for (var i = 0; i < CoinSet.length; i++) {
-        playerCoins[i] = new Array();
+    for (var i = 0; i < DiamondSet.length; i++) {
+        playerDiamonds[i] = new Array();
 
-        for (var j = 0; j < CoinSet[i].antallCoins; j++) {
-            playerCoins[i][j] = new collectable("img/coin.png", CoinSet[i].xPos + (j * 20), CoinSet[i].yPos, 2, 2);
+        for (var j = 0; j < DiamondSet[i].antallDiamonds; j++) {
+            playerDiamonds[i][j] = new collectable("img/diamant.png", DiamondSet[i].xPos + (j * 400), DiamondSet[i].yPos, 30, 26);
         }
     }
 
     //
     //And the carrots
     var CarrotSet = [
-        { xPos: 400, yPos: 15 }
+        { xPos: 900, yPos: 125 },
+        { xPos: 1500, yPos: 405 },
+        { xPos: 2500, yPos: 305 },
+        { xPos: 3500, yPos: 90 },
+        { xPos: 4500, yPos: 500 },
+        { xPos: 6000, yPos: 205 },
+
         //{ xPos: 500, yPos: 45 }
     ]
 
@@ -109,18 +144,32 @@ function enterLvl2() {
 
 
     for (var i = 0; i < CarrotSet.length; i++) {
-        carrots[i] = new collectable("img/treasure.png", CarrotSet[i].xPos, CarrotSet[i].yPos, 10, 10)
+        carrots[i] = new collectable("img/treasure.png", CarrotSet[i].xPos, CarrotSet[i].yPos, 50, 80)
     }
     //
 
-
+    var playerXPosition = canvasEl.width / 5;
+    var playerYPosition = canvasEl.height / 2 + 20
     //And the enemies, with a more complex system
     var EnemySet = [
-        { antallEnemies: 0, xPos: 50, yPos: 30, yspd: 0.5, xspd: 0.5, width: 10, height: 12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 100 },
-        { antallEnemies: 0, xPos: 200, yPos: 20, yspd: 0.5, xspd: 0.5, width: 10, height: 12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 200 },
-        { antallEnemies: 2, xPos: 490, yPos: 15, yspd: 0.5, xspd: 0.5, width: 10, height: 12, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 10 },
+        // 3900, yPos: 298,
+        { antallEnemies: 6, xPos: 500, yPos: 510, yspd: 0.5, xspd: 4, width: 40, height: 61, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 100, name: "zombie" },
+        { antallEnemies: 1, xPos: 900, yPos: 125, yspd: 0.5, xspd: 4, width: 40, height: 59, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 300, name: "feX" },
+        { antallEnemies: 1, xPos: 1500, yPos: 405, yspd: 0.5, xspd: 4, width: 40, height: 59, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 300, name: "feX" },
+        { antallEnemies: 1, xPos: 2500, yPos: 305, yspd: 0.5, xspd: 4, width: 40, height: 59, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 300, name: "feX" },
+        { antallEnemies: 1, xPos: 4500, yPos: 500, yspd: 0.5, xspd: 4, width: 40, height: 59, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 300, name: "feX" },
+        { antallEnemies: 1, xPos: 6000, yPos: 205, yspd: 0.5, xspd: 4, width: 40, height: 59, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 300, name: "feX" },
+        { antallEnemies: 1, xPos: 3500, yPos: 90, yspd: 0.5, xspd: 4, width: 40, height: 59, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 300, name: "feX" },
+        
+        { antallEnemies: 1, xPos: 900, yPos: 125, yspd: 5, xspd: 2, width: 40, height: 59, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 250, name: "feY" },
+        { antallEnemies: 1, xPos: 1500, yPos: 405, yspd: 5, xspd: 2, width: 40, height: 59, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 250, name: "feY" },
+        { antallEnemies: 1, xPos: 2500, yPos: 305, yspd: 5, xspd: 2, width: 40, height: 59, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 250, name: "feY" },
+        { antallEnemies: 1, xPos: 4500, yPos: 500, yspd: 5, xspd: 2, width: 40, height: 59, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 250, name: "feY" },
+        { antallEnemies: 1, xPos: 6000, yPos: 205, yspd: 5, xspd: 2, width: 40, height: 59, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 250, name: "feY" },
+        { antallEnemies: 1, xPos: 3500, yPos: 90, yspd: 5, xspd: 2, width: 40, height: 59, gravity: 5, weight: 0.1, currentHp: 5, damage: 0, range: 250, name: "feY" }
     ]
 
+    var differanse = new Array();
     //Enemy arrays
     var enemies = new Array();
     //Enemies start position array
@@ -133,11 +182,23 @@ function enterLvl2() {
         enemies[i] = new Array();
         enemyStartXValue[i] = new Array();
         startSpeed[i] = new Array();
+        differanse[i] = new Array();
 
         for (var j = 0; j < EnemySet[i].antallEnemies; j++) {
             startSpeed[i][j] = false;
-            enemies[i][j] = new entity("img/Small1.png", EnemySet[i].xPos + (j * 15), EnemySet[i].yPos, EnemySet[i].width, EnemySet[i].height, EnemySet[i].yspd, EnemySet[i].gravity, EnemySet[i].weight, EnemySet[i].currentHp, EnemySet[i].damage);
+            if (EnemySet[i].name === "normal") {
+                enemies[i][j] = new entity("img/zombikanin.png", EnemySet[i].xPos + (j * 100), EnemySet[i].yPos, EnemySet[i].width, EnemySet[i].height, EnemySet[i].yspd, EnemySet[i].gravity, EnemySet[i].weight, EnemySet[i].currentHp, EnemySet[i].damage);
+            }
+            else if (EnemySet[i].name === "feY") {
+                enemies[i][j] = new entity("img/Feen 3.png", EnemySet[i].xPos + (j * 130), EnemySet[i].yPos, EnemySet[i].width, EnemySet[i].height, EnemySet[i].yspd, EnemySet[i].gravity, EnemySet[i].weight, EnemySet[i].currentHp, EnemySet[i].damage);
+            }
+            else if (EnemySet[i].name === "feX") {
+                enemies[i][j] = new entity("img/Feen 1.png", EnemySet[i].xPos + (j * 150), EnemySet[i].yPos, EnemySet[i].width, EnemySet[i].height, EnemySet[i].yspd, EnemySet[i].gravity, EnemySet[i].weight, EnemySet[i].currentHp, EnemySet[i].damage);
 
+            } else {
+                enemies[i][j] = new entity("img/zombie.png", EnemySet[i].xPos + (j * 3000), EnemySet[i].yPos, EnemySet[i].width, EnemySet[i].height, EnemySet[i].yspd, EnemySet[i].gravity, EnemySet[i].weight, EnemySet[i].currentHp, EnemySet[i].damage);
+
+            }
             //Saving the start position of each enemuy in an array
             enemyStartXValue[i][j] = enemies[i][j].xPosition
 
@@ -153,13 +214,19 @@ function enterLvl2() {
             //Lastly we give the enemies their start value 
             enemies[i][j].startXposition = enemyStartXValue[i][j];
 
+            //For zombie classen
+            enemies[i][j].zomRight = enemies[i][j].xPosition + EnemySet[i].range;
+
+            enemies[i][j].zomLeft = enemies[i][j].xPosition - EnemySet[i].range;
+
+
         }
 
     }
 
 
     // Placing the objective
-    var finnishLine = new collectable("img/finnishLine.png", 800, 80, 10, 10);
+    var finnishLine = new collectable("img/målflagg.png", 6800, 417.5, 100, 115);
 
 
 
@@ -191,12 +258,20 @@ function enterLvl2() {
 
     mainLoop();
     function mainLoop() {
+        if (player.CurrentHp == "2") {
+            contentEl.style.backgroundColor = "hsla(0, 100%, 50%, 0.1)";
+        } else if (player.CurrentHp == "1") {
+            contentEl.style.backgroundColor = "hsla(0, 100%, 50%, 0.2)";
+        }
+
+
 
         var gravity = 0.09;
         // Stats update
 
-        coinCount.innerHTML = playerGameInventoryCoinCount + "<br> Coins ";
+        DiamondCount.innerHTML = playerGameInventoryDiamondCount + "<br> Diamonds ";
         carrotCount.innerHTML = playerGameInventoryCarrotCount + "<br> Carrots";
+        message.innerHTML = "You have " + bulletInventory + " bullets";
 
 
         //
@@ -207,10 +282,10 @@ function enterLvl2() {
 
         //Player moving logic
         if (left) {
-            player.xSpd = -3;
+            player.xSpd = -9;
         }
         if (right) {
-            player.xSpd = 3;
+            player.xSpd = 9;
         }
 
         if (!left && !right) {
@@ -219,7 +294,11 @@ function enterLvl2() {
 
         //Player jumping logic
         if (jump) {
-            player.ySpd = -2.5;
+            var jumpSound = new Audio('audio/jump.mp3');
+            jumpSound.volume = 0.5;
+            jumpSound.play();
+
+            player.ySpd = -5;
             jump = false;
         }
 
@@ -239,21 +318,27 @@ function enterLvl2() {
 
 
         // Wapon logic and inventory bullet count
-        if (playerGameInventoryCoinCount == 10) {
+        var gun = new entity("img/gun (2).png", player.xPosition + 12.5, player.yPosition + 32.5, 0, 0, "left", 45, 25);
+
+        if (playerGameInventoryDiamondCount == 1) {
             bulletInventory = 5;
-            playerGameInventoryCoinCount = 0;
+            playerGameInventoryDiamondCount = 0;
         }
 
         //REMEMBER TO IMPLEMENT BULLET COUNT LOGIC
         //where the bullets are created and determed which way it should travel
         //And also setting the cooldown
-        if (isShooting && !coolDown) {
+        if (isShooting && !coolDown && bulletInventory > 0) {
+
             bulletFired = true;
             coolDown = true;
+            bulletInventory--;
+            new Audio('audio/gun.mp3').play();
             if (left) {
-                bulletList.push(new bullets(player.xPosition - 20, player.yPosition, 5, 2, "Left"))
+                //   gun.xPosition - 20 xPosition + 20
+                bulletList.push(new bullets("img/bulletleft.png", player.xPosition - 12.5, player.yPosition + 32.5, 10, 5, "Left", 7, 7))
             } else {
-                bulletList.push(new bullets(player.xPosition + 20, player.yPosition, 5, 2, "Right"))
+                bulletList.push(new bullets("img/bulletright.png", player.xPosition + 12.5, player.yPosition + 32.5, 10, 5, "Right", 7, 7))
             }
 
             if (coolDown) {
@@ -261,12 +346,9 @@ function enterLvl2() {
             }
         }
 
-
-
+        // bullet: constructor(img,xPosition, yPosition, xSpd, damage, direction, width, height) {
 
         //Clearing the screen
-
-
 
         //Keeping track of the bullets
 
@@ -275,22 +357,21 @@ function enterLvl2() {
                 bulletList[i].xPosition += -player.xSpd - bulletList[i].xSpd;
             } else if (bulletList[i].direction == "Right") {
 
-                //Keeping track of the bullets
+                bulletList[i].xPosition += -player.xSpd + bulletList[i].xSpd;
+            }
 
-                for (var i = 0; i < bulletList.length; i++) {
+            if (bulletList[i].xPosition > canvasEl.width || bulletList[i].xPosition < 0) {
+                var remmovebullet = bulletList.indexOf(bulletList[i]);
+                if (remmovebullet > -1) {
+                    bulletList.splice(remmovebullet, 1);
 
-                    if (bulletList[i].direction == "Left") {
-                        bulletList[i].xPosition += -player.xSpd - bulletList[i].xSpd;
 
-
-                    } else if (bulletList[i].direction == "Right") {
-
-                        bulletList[i].xPosition += -player.xSpd + bulletList[i].xSpd;
-
-                    }
                 }
+
             }
         }
+
+
 
 
 
@@ -304,11 +385,13 @@ function enterLvl2() {
 
             for (var j = 0; j < block[i].length; j++) {
                 block[i][j].xPosition += -player.xSpd;
+                //for toppen
                 if (player.collitionObject(block[i][j]) && player.yPosition + player.height < block[i][j].yPosition + player.ySpd) {
                     if (block[i][j].damage != 0) {
 
                         if (!damageCooldown) {
-                            player.CurrentHp -= 5;
+                            
+                            player.CurrentHp--;
                             damageCooldown = true;
 
 
@@ -355,6 +438,8 @@ function enterLvl2() {
             carrots[i].xPosition += -player.xSpd;
 
             if (player.collitionObject(carrots[i])) {
+                var carrot = new Audio('audio/collecting.mp3');
+                carrot.play();
                 var thisCarrot = carrots.indexOf(carrots[i]);
                 carrots.splice(thisCarrot, 1);
 
@@ -366,18 +451,20 @@ function enterLvl2() {
 
 
 
-        //Keeping track of the coins
-        for (var i = 0; i < playerCoins.length; i++) {
+        //Keeping track of the Diamonds
+        for (var i = 0; i < playerDiamonds.length; i++) {
 
-            for (var j = 0; j < playerCoins[i].length; j++) {
-                playerCoins[i][j].xPosition += -player.xSpd;
+            for (var j = 0; j < playerDiamonds[i].length; j++) {
+                playerDiamonds[i][j].xPosition += -player.xSpd;
 
-                if (player.collitionObject(playerCoins[i][j])) {
-                    var ThisCoin = playerCoins[i].indexOf(playerCoins[i][j]);
-                    playerCoins[i].splice(ThisCoin, 1);
+                if (player.collitionObject(playerDiamonds[i][j])){
+                    new Audio('audio/ping.mp3').play();
 
-                    playerGameInventoryCoinCount++;
-                    message.innerHTML = "You have " + bulletInventory + " bullets";
+                    var ThisDiamond = playerDiamonds[i].indexOf(playerDiamonds[i][j]);
+                    playerDiamonds[i].splice(ThisDiamond, 1);
+
+                    playerGameInventoryDiamondCount++;
+
                 }
             }
         }
@@ -389,23 +476,124 @@ function enterLvl2() {
 
             for (j = 0; j < enemies[i].length; j++) {
 
-                if (startSpeed[i][j] == false) {
-                    enemies[i][j].xPosition += -player.xSpd + EnemySet[i].xspd;
-                    enemies[i][j].yPosition += EnemySet[i].yspd;
-                    enemies[i][j].startXposition += -EnemySet[i].xspd;
+
+                if (EnemySet[i].name == "normal") {
+
+                    if (startSpeed[i][j] == false) {
+                        enemies[i][j].xPosition += -player.xSpd + EnemySet[i].xspd;
+                        enemies[i][j].yPosition += EnemySet[i].yspd;
+                        enemies[i][j].startXposition += -EnemySet[i].xspd;
+                    }
+
+                    if (startSpeed[i][j] == true) {
+                        enemies[i][j].xPosition += -player.xSpd - EnemySet[i].xspd;
+                        enemies[i][j].yPosition += EnemySet[i].yspd;
+                        enemies[i][j].startXposition += EnemySet[i].xspd;
+                    }
+
+                    if (enemies[i][j].startXposition === enemies[i][j].scopeRight) {
+                        startSpeed[i][j] = false;
+                    } else if (enemies[i][j].startXposition === enemies[i][j].scopeLeft) {
+                        startSpeed[i][j] = true;
+                    }
+
+                } else if (EnemySet[i].name == "feX") {
+
+                    if (startSpeed[i][j] == false) {
+                        enemies[i][j].xPosition += -player.xSpd + EnemySet[i].xspd;
+                        enemies[i][j].startXposition += -EnemySet[i].xspd;
+                    }
+
+                    if (startSpeed[i][j] == true) {
+                        enemies[i][j].xPosition += -player.xSpd - EnemySet[i].xspd;
+                        enemies[i][j].startXposition += EnemySet[i].xspd;
+                    }
+
+
+                    if (enemies[i][j].startXposition === enemies[i][j].scopeRight) {
+                        startSpeed[i][j] = false;
+                    } else if (enemies[i][j].startXposition === enemies[i][j].scopeLeft) {
+                        startSpeed[i][j] = true;
+                    }
+
+
+
+                } else if (EnemySet[i].name == "feY") {
+
+                    if (startSpeed[i][j] == false) {
+                        enemies[i][j].xPosition += -player.xSpd;
+                        enemies[i][j].yPosition += EnemySet[i].yspd;
+                        enemies[i][j].startXposition += -EnemySet[i].yspd;
+                    }
+
+                    if (startSpeed[i][j] == true) {
+                        enemies[i][j].xPosition += -player.xSpd;
+                        enemies[i][j].yPosition += -EnemySet[i].yspd;
+                        enemies[i][j].startXposition += EnemySet[i].yspd;
+                    }
+
+                    if (enemies[i][j].startXposition === enemies[i][j].scopeRight) {
+                        startSpeed[i][j] = false;
+                    } else if (enemies[i][j].startXposition === enemies[i][j].scopeLeft) {
+                        startSpeed[i][j] = true;
+                    }
+
+                } else if (EnemySet[i].name == "zombie") {
+
+                    differanse[i][j] = player.xPosition - enemies[i][j].xPosition;
+
+                    if (differanse[i][j] >= 10 || differanse[i][j] <= - 10) {
+
+
+                        if (startSpeed[i][j] == false) {
+                            enemies[i][j].zomRight += EnemySet[i].xspd
+                            enemies[i][j].zomLeft += -EnemySet[i].xspd;
+
+                            enemies[i][j].xPosition += -player.xSpd + EnemySet[i].xspd;
+                            enemies[i][j].yPosition += EnemySet[i].yspd;
+                            enemies[i][j].startXposition += -EnemySet[i].xspd;
+                        }
+
+                        if (startSpeed[i][j] == true) {
+                            enemies[i][j].zomRight += -EnemySet[i].xspd
+                            enemies[i][j].zomLeft += EnemySet[i].xspd;
+                            enemies[i][j].xPosition += -player.xSpd - EnemySet[i].xspd;
+                            enemies[i][j].yPosition += EnemySet[i].yspd;
+                            enemies[i][j].startXposition += EnemySet[i].xspd;
+                        }
+
+                        if (enemies[i][j].startXposition === enemies[i][j].scopeRight) {
+                            startSpeed[i][j] = false;
+                        } else if (enemies[i][j].startXposition === enemies[i][j].scopeLeft) {
+                            startSpeed[i][j] = true;
+                        }
+                    } else if (differanse[i][j] < 15 || differanse[i][j] > -15) {
+                        console.log(differanse[0][0]);
+
+                        if (differanse[i][j] > 0) {
+                            console.log("positiv");
+                            EnemySet[i].xspd = 2;
+                            enemies[i][j].xPosition += -player.xSpd; + EnemySet[i].xspd;
+
+                            enemies[i][j].yPosition += EnemySet[i].yspd;
+                        } else if (differanse[i][j] < 0) {
+                            console.log("negativ");
+                            EnemySet[i].xspd = -2;
+                            enemies[i][j].xPosition += -player.xSpd; - EnemySet[i].xspd;
+                            enemies[i][j].yPosition += EnemySet[i].yspd;
+                        }
+
+
+
+
+                    }
+
+
                 }
 
-                if (startSpeed[i][j] == true) {
-                    enemies[i][j].xPosition += -player.xSpd - EnemySet[i].xspd;
-                    enemies[i][j].yPosition += EnemySet[i].yspd;
-                    enemies[i][j].startXposition += EnemySet[i].xspd;
-                }
 
-                if (enemies[i][j].startXposition === enemies[i][j].scopeRight) {
-                    startSpeed[i][j] = false;
-                } else if (enemies[i][j].startXposition === enemies[i][j].scopeLeft) {
-                    startSpeed[i][j] = true;
-                }
+
+
 
 
 
@@ -422,18 +610,11 @@ function enterLvl2() {
 
 
                 if (player.collitionObject(enemies[i][j])) {
-                    console.log("du rører en fiende");
+
                     if (!damageCooldown) {
                         player.CurrentHp--;
-                        new Audio('audio/ping.mp3').play();
+                        
                         damageCooldown = true;
-
-                        if (player.CurrentHp == "2") {
-                            contentEl.style.backgroundColor = "hsla(0, 100%, 50%, 0.025)";
-                        } else if (player.CurrentHp == "1") {
-                            contentEl.style.backgroundColor = "hsla(0, 100%, 50%, 0.05)";
-                        }
-
 
                         if (damageCooldown) {
 
@@ -445,27 +626,50 @@ function enterLvl2() {
 
                 }
 
+                for (var d = 0; d < bulletList.length; d++) {
+                    if (enemies[i][j].collitionObject(bulletList[d])) {
+                        var remmovebullet = bulletList.indexOf(bulletList[d]);
+
+                        if (remmovebullet > - 1) {
+                            bulletList.splice(remmovebullet, 1);
+                        }
+
+
+                        var removeenemy = enemies[i].indexOf(enemies[i][j]);
+                        if (removeenemy > -1) {
+                            new Audio('audio/ping.mp3').play();
+                            enemies[i].splice(removeenemy, 1);
+                        }
+
+                    }
+                }
+
             }
         }
 
+
         /*
-        RENDERING SECTION OF THE GAME
+        RENDERING SECTION OF THE GAME 
+         bulletList[i].width, bulletList[i].height
         */
 
         //Clearing the screen
         ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
 
+        //backgroundimage
+        ctx.drawImage(backgroundimg, 0, 0, canvasEl.width, canvasEl.height);
+
         //rendering the bullets
         for (var i = 0; i < bulletList.length; i++) {
-            ctx.fillRect(bulletList[i].xPosition, bulletList[i].yPosition, 5, 5);
+            ctx.drawImage(bulletList[i].sprite, bulletList[i].xPosition, bulletList[i].yPosition);
 
         }
 
 
-        //Rendering the coins
-        for (var i = 0; i < playerCoins.length; i++) {
-            for (var j = 0; j < playerCoins[i].length; j++) {
-                ctx.drawImage(playerCoins[i][j].sprite, playerCoins[i][j].xPosition, playerCoins[i][j].yPosition);
+        //Rendering the Diamonds
+        for (var i = 0; i < playerDiamonds.length; i++) {
+            for (var j = 0; j < playerDiamonds[i].length; j++) {
+                ctx.drawImage(playerDiamonds[i][j].sprite, playerDiamonds[i][j].xPosition, playerDiamonds[i][j].yPosition);
 
             }
         }
@@ -489,6 +693,9 @@ function enterLvl2() {
         }
 
 
+        // DRAW GUN
+
+        ctx.drawImage(gun.sprite, gun.xPosition, gun.yPosition);
 
         //Lastly rendering the player and the finnish line
         ctx.drawImage(player.sprite, player.xPosition, player.yPosition);
@@ -500,6 +707,10 @@ function enterLvl2() {
             if (carrots.length != 0) {
                 message.innerHTML = "You haven't collected all the carrots";
             } else {
+                mainMusic.pause();
+                var vinning = new Audio('audio/vinning.mp3');
+                vinning.play();
+
                 ContiniueGame = false;
                 var obj = document.getElementById("gameStats");
                 obj.parentNode.removeChild(obj);
@@ -516,7 +727,9 @@ function enterLvl2() {
 
 
                 function nextWorld() {
+                    vinning.pause();
                     new Audio('audio/ping.mp3').play();
+
 
                     var obj1 = document.getElementById("nextWorld");
                     obj1.parentNode.removeChild(obj1);
@@ -528,6 +741,10 @@ function enterLvl2() {
         }
 
         if (player.CurrentHp <= 0 || player.yPosition > canvasEl.height) {
+            mainMusic.pause();
+            var death = new Audio('audio/death.mp3');
+            death.play();
+
             ContiniueGame = false;
             var obj = document.getElementById("gameStats");
             obj.parentNode.removeChild(obj);
@@ -543,12 +760,13 @@ function enterLvl2() {
 
             function restart() {
                 new Audio('audio/ping.mp3').play();
+                death.pause();
                 contentEl.style.backgroundColor = "initial";
 
                 var obj1 = document.getElementById("restart");
 
                 obj1.parentNode.removeChild(obj1);
-                enterLvl1();
+                enterLvl2();
             }
 
         }
@@ -558,9 +776,12 @@ function enterLvl2() {
         if (ContiniueGame == true) {
             setTimeout(mainLoop, 1000 / 60)
         }
+
+
     }
 
 
 }
+
 
 
